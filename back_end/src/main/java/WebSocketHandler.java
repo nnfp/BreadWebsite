@@ -11,19 +11,44 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebSocket
 public class WebSocketHandler {
 
+    private static List<String> messages = new Vector<>();
+    private static Map<Session, Session> sessionMap = new ConcurrentHashMap<>();
+
+
+    public static void broadcast(String message){
+        // loop through each active session
+        sessionMap.keySet().forEach(session -> {
+            try {
+                session.getRemote().sendString(message);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        });
+    }
+
+    // Trigger when connection opens (AND STAYS OPEN)
     @OnWebSocketConnect
     public void connected(Session session) throws IOException {
+        sessionMap.put(session, session); // remember all sessions
+        System.out.println("A Client has connected.");
+        Gson gson = new Gson();
+        // test that we can see messages
+        session.getRemote().sendString(gson.toJson(messages));
     }
 
     @OnWebSocketClose
-    public void closed(Session session, int statusCode, String reason){
+    public void closed(Session session, int status, String reason){
+        sessionMap.remove(session); // clear session
+        System.out.println("A Client has disconnected.");
+
     }
 
     @OnWebSocketMessage
     public void message(Session session, String message){
-    }
-
-    @OnWebSocketError
-    public void error(Session session, Throwable error){
+        System.out.println("Client has sent: " + message);
+        messages.add(message); //store message
+        // trigger a broadcast
+        Gson gson = new Gson();
+        broadcast(gson.toJson(messages));
     }
 }
