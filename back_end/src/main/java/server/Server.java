@@ -16,24 +16,15 @@ public class Server {
   }
 
   public String processRequest(String request){
-    int index, index2;
-    index = request.indexOf("\n");
-    index2 = request.indexOf("/");
-    String url = "http://localhost:1299" + request.substring(index2, index-9);
-
-    System.out.println(url);
-    try {
-      index = request.lastIndexOf("{");
-      index2 = request.lastIndexOf("}");
-      String body = request.substring(index, index2 + 1);
-      System.out.println("X");
-      return ListingService.getInstance().restApi(url, body);
+    String path = request.substring(request.indexOf('/'), request.lastIndexOf(" H"));
+    String http = request.substring(request.indexOf('/') + path.length() + 1, request.indexOf("/", path.length())).toLowerCase();
+    String host = request.substring(request.indexOf("Host:") + 6, request.lastIndexOf("Connection:") - 1);
+    String url = http + "://" + host + path;
+    String body = null;
+    if (request.contains("POST")) {
+      body = request.substring(request.indexOf("{"));
     }
-    catch(Exception e) {
-      String body = "";
-      return ListingService.getInstance().restApi(url, body);
-    }
-
+    return ListingService.getInstance().restApi(url, body);
   }
 
   public void runServer() {

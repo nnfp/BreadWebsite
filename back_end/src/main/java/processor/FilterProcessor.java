@@ -12,6 +12,9 @@ public class FilterProcessor implements Processor{
 
   @Override
   public ResponseDto process(ParsedUrl parsedUrl, String body) {
-    return new ResponseDto(null, null, true);
+    List<ListingDto> fList = listDaoInst.getItems().stream()
+            .filter( x -> x.equals(parsedUrl.getValue("type")))
+            .collect(Collectors.toList());
+    return new ResponseDto(new Date(), fList, true);
   }
 }

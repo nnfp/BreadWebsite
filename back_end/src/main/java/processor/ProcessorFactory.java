@@ -4,7 +4,7 @@ import parser.ParsedUrl;
 
 public class ProcessorFactory {
 
-  public static Processor getProcessor(ParsedUrl parsedUrl){
+  public Processor getProcessor(ParsedUrl parsedUrl){
     switch (parsedUrl.getPath()){
       case "/api/createListing":
         return new AddListingProcessor();

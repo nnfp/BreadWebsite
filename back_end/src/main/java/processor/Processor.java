@@ -5,6 +5,6 @@ import dto.ResponseDto;
 import parser.ParsedUrl;
 
 public interface Processor {
-  ListingDao listingDao = ListingDao.getInstance();
+  ListingDao listDaoInst = ListingDao.getInstance();
   public ResponseDto process(ParsedUrl parsedUrl, String body);
 }

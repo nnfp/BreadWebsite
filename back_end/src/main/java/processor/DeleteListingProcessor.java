@@ -11,14 +11,8 @@ public class DeleteListingProcessor implements Processor{
 
   @Override
   public ResponseDto process(ParsedUrl parsedUrl, String body) {
-    String id = parsedUrl.getValue(body);
-    Boolean success = true;
-    try {
-      listingDao.delete(id);
-    }
-    catch(Exception e){
-      success=false;
-    }
-    return new ResponseDto(new Date(), listingDao.getItems(), success);
+    String id = parsedUrl.getValue("id");
+    listDaoInst.delete(id);
+    return new ResponseDto(new Date(), listDaoInst.getItems(), true);
   }
 }

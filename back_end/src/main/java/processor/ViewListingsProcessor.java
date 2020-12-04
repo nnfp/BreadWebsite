@@ -10,9 +10,9 @@ import parser.ParsedUrl;
 
 public class ViewListingsProcessor implements Processor{
 
+  private static Gson gson = new Gson();
 
   @Override
-  public ResponseDto process(ParsedUrl parsedUrl, String body) {
-    return new ResponseDto(new Date(), listingDao.getItems(), true);
+  public ResponseDto process(ParsedUrl parsedUrl, String body) { return new ResponseDto(new Date(), listDaoInst.getItems(), true);
   }
 }

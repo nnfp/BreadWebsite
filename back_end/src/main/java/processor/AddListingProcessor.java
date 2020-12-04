@@ -10,13 +10,13 @@ import parser.ParsedUrl;
 
 public class AddListingProcessor implements Processor{
 
-  //private static Gson gson = new Gson();
+  private static Gson gson = new Gson();
 
   @Override
   public ResponseDto process(ParsedUrl parsedUrl, String body) {
     Gson gson = new Gson();
-    listingDao.put(gson.fromJson(body, ListingDto.class));
-    System.out.println(body);
-    return new ResponseDto(new Date(), listingDao.getItems(), true);
+    ListingDto list = gson.fromJson(body, ListingDto.class);
+    listDaoInst.put(list);
+    return new ResponseDto(new Date(), listDaoInst.getItems(), listDaoInst.getItems().size() > 0);
   }
 }

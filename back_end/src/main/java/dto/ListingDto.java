@@ -20,7 +20,7 @@ public class ListingDto extends BaseDto {
   }
 
   public ListingDto(String description, String type, Integer price, String title) {
-    super(description + type + price + title);
+    super(null);
     this.description = description;
     this.type = type;
     this.price = price;
