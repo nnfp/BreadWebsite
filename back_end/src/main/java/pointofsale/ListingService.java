@@ -2,8 +2,6 @@ package pointofsale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dto.ResponseDto;
-import javax.inject.Inject;
 import parser.ParsedUrl;
 import processor.Processor;
 import processor.ProcessorFactory;
@@ -30,20 +28,9 @@ public class ListingService {
   }
 
   public String restApi(String url, String body){
-    try {
-      ParsedUrl parse = new ParsedUrl(url);
-      System.out.println(parse.getPath());
-      Gson gson = new Gson();
-      System.out.println(body);
-      ResponseDto res = ProcessorFactory.getProcessor(parse).process(parse, body);
-      System.out.println("XD" + res);
-      return gson.toJson(res);
-    }
-    catch(Exception e){
-      System.out.println(e);
-      return "ERROR";
-    }
-
+    Gson gson = new Gson();
+    Processor processor = processorFactory.getProcessor(new ParsedUrl(url));
+    return gson.toJson(processor.process(new ParsedUrl(url), body));
   }
 
 }
