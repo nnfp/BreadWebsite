@@ -33,14 +33,13 @@ function App() {
   };
 
   //listing handler
-  const handleWebsocketListing = (listingEvent) => {
-    const newListing = JSON.parse(listingEvent.data);
-    setListings(newListing);
+  websocket.onopen = function(event) {
+    websocket.send('Websocket now accepting data!');
   };
 
   React.useEffect(() => {
     websocket.addEventListener('message', handleWebsocketMessage);
-    websocket.addEventListener('listings', handleWebsocketListing);
+    
     // try{
     // //call get request to backend to get all listings
     // axios.get('/api/viewListings')
@@ -80,31 +79,33 @@ function App() {
     //     console.log('//');
     //   });
 
-    //grab data by ID
-    // let descData = document.getElementById('input-description').value;
-    // let typeData = document.getElementById('input-type').value;
-    // let priceData = document.getElementById('input-price').value;
-    // let titleData = document.getElementById('input-title').value;
-    let listingArray = [desc, type, price, title];
-    setAllListings(allListings => [listings, ...allListings]);
-    console.log(listingArray.toString());
-    setListings([]);
+    var listingData = {
+      descData: document.getElementById('input-description').value,
+      typeData: document.getElementById('input-type').value,
+      priceData: document.getElementById('input-price').value,
+      titleData: document.getElementById('input-title').value
+    }
+
     //refresh listings
     //websocket.send(listings);
 
+    //single messages being sent
     setMessage('');
     websocket.send(message);
+
+    //sending listingData object as json formatted to string
+    websocket.send(JSON.stringify(listingData));
   }
   return (
     <div className="App">
       <h1>Final Project App</h1>
-        <div key='xd'>
+      <div key='xd'>
           <input value={message} onChange={e => setMessage(e.target.value)} />
-          <input id='input-description' value={desc} onChange={e => setDesc(e.target.value)}>
+          <input id='input-description' value={desc} onChange={e => setDesc(e.target.value)} >
           </input>
-          <input id='input-type' value={type} onChange={e => setType(e.target.value)}>
+          <input id='input-type' value={type} onChange={e => setType(e.target.value)} >
           </input>
-          <input id='input-price' value={price} onChange={e => setPrice(e.target.value)}>
+          <input id='input-price' value={price} onChange={e => setPrice(e.target.value)} >
           </input>
           <input id='input-title' value={title} onChange={e => setTitle(e.target.value)}>
           </input>
