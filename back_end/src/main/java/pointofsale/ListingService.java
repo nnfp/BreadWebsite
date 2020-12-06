@@ -3,7 +3,7 @@ package pointofsale;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.ResponseDto;
-import javax.inject.Inject;
+//import javax.inject.Inject;
 import parser.ParsedUrl;
 import processor.Processor;
 import processor.ProcessorFactory;
