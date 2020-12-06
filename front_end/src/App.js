@@ -21,6 +21,8 @@ function App() {
   const [allListings, setAllListings] = React.useState([]);
 
   //listing data
+  const [postId, setPostId] = React.useState('');
+  const [postOption, setPostOption] = React.useState('');
   const [desc, setDesc] = React.useState('');
   const [type, setType] = React.useState('');
   const [price, setPrice] = React.useState('');
@@ -83,7 +85,9 @@ function App() {
       descData: document.getElementById('input-description').value,
       typeData: document.getElementById('input-type').value,
       priceData: document.getElementById('input-price').value,
-      titleData: document.getElementById('input-title').value
+      titleData: document.getElementById('input-title').value,
+      postId: document.getElementById('post-id').value,
+      postOption: document.getElementById('post-option').value
     }
 
     //refresh listings
@@ -100,15 +104,28 @@ function App() {
     <div className="App">
       <h1>Final Project App</h1>
       <div key='xd'>
-          <input value={message} onChange={e => setMessage(e.target.value)} />
-          <input id='input-description' value={desc} onChange={e => setDesc(e.target.value)} >
+          <input value={message} onChange={e => setMessage(e.target.value)} placeholder="message"/>
+          <input id='input-description' value={desc} onChange={e => setDesc(e.target.value)} placeholder="Description">
           </input>
-          <input id='input-type' value={type} onChange={e => setType(e.target.value)} >
+          <select id='input-type' value={type} onChange={e => setType(e.target.value)}>
+            <option value="" disabled selected>Bread Type</option>
+            <option value="bread 1">bread 1</option>
+            <option value="bread 2">bread 2</option>
+            <option value="bread 3">bread 3</option>
+            <option value="bread 4">bread 4</option>
+          </select>
+          <input id='input-price' value={price} onChange={e => setPrice(e.target.value)} placeholder="Price">
           </input>
-          <input id='input-price' value={price} onChange={e => setPrice(e.target.value)} >
+          <input id='input-title' value={title} onChange={e => setTitle(e.target.value)} placeholder="Listing Title">
           </input>
-          <input id='input-title' value={title} onChange={e => setTitle(e.target.value)}>
+          <input id='post-id' value={postId} onChange={e => setPostId(e.target.value)} placeholder="Post ID">
           </input>
+          <select id='post-option' value={postOption} onChange={e => setPostOption(e.target.value)}>
+            <option value="" disabled selected>Post Option</option>
+            <option value="create">Create</option>
+            <option value="edit">Edit</option>
+            <option value="delete">Delete</option>
+          </select>
           <button id='submit' onClick={handleClick}>
             Submit
           </button>
