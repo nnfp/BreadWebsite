@@ -62,6 +62,11 @@ public class WebSocketHandler {
         broadcast(gson.toJson(messages));
     }
 
+    @OnWebSocketError
+    public void error(Session session, Throwable error){
+        // handles errors
+    }
+
     //helper methods
     private static void handleListing(String res) {
         //establish mongoConnection
