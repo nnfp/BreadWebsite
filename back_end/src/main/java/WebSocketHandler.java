@@ -65,6 +65,7 @@ public class WebSocketHandler {
     @OnWebSocketError
     public void error(Session session, Throwable error){
         // handles errors
+        System.out.println(error.toString());
     }
 
     //helper methods
@@ -104,42 +105,70 @@ public class WebSocketHandler {
             System.out.println("dataArray2" + Arrays.toString(dataArray2));
         }
 
-        //assigning variables
-        desc = dataArray2[1];
-        type = dataArray2[3];
-        price = dataArray2[5];
-        title = dataArray2[7];
-        postId = dataArray2[9];
-        postOption = dataArray2[11];
+        //default assignments
+        desc = "";
+        type = "";
+        price = "";
+        title = "";
+        postId = "";
+        postOption = "";
+
+        //checks if json sent, then removes extra quotes
+        if (res.contains("{")) {
+            desc = dataArray2[1];
+            desc = desc.replace("\"", "");
+            type = dataArray2[3];
+            type = type.replace("\"", "");
+            price = dataArray2[5];
+            price = price.replace("\"", "");
+            title = dataArray2[7];
+            title = title.replace("\"", "");
+            postId = dataArray2[9];
+            postId = postId.replace("\"", "");
+            postOption = dataArray2[11];
+            postOption = postOption.replace("\"", "");
+            System.out.println("RES = " + res + "| postOption = " + postOption);
+        }
 
         //checking postOption to see what the program needs to do
-        if(postOption.equals("create")) {
-            //send data and create json obj in MongoDB
-            Document doc = new Document("description :",desc)
-                .append("type :",type)
-                .append("price :",price)
-                .append("title :",title);
+        if (res.contains("{")){
+            switch (postOption) {
+                case "create":
+                    //send data and create json obj in MongoDB
+                    Document doc = new Document("description :", desc)
+                            .append("type :", type)
+                            .append("price :", price)
+                            .append("title :", title);
 
-            usersCollection.insertOne(doc);
+                    usersCollection.insertOne(doc);
 
-        } else if(postOption.equals("edit")) {
-            //retrieve data and edit current listing with postId
-            //check if postId is not empty
-            if(!(postId.equals(""))){
+                    break;
+                case "edit":
+                    //retrieve data and edit current listing with postId
+                    //check if postId is not empty
+                    if (!(postId.equals(""))) {
 
+                    } else {
+                        System.out.println("EDIT OPTION PROCCED: NO postId FOUND");
+                    }
+
+                    break;
+                case "delete":
+                    //delete listing with postId
+                    //check if postId is not empty
+                    if (!(postId.equals(""))) {
+                        Bson filter = eq("_id", postId);
+                        DeleteResult result = usersCollection.deleteOne(filter);
+                        System.out.println(result);
+                    } else {
+                        System.out.println("DELETE OPTION PROCCED: NO postId FOUND");
+                    }
+
+                    break;
+                default:
+                    System.out.println("postOption ran through all options, end result is ELSE STATE");
+                    break;
             }
-
-        } else if(postOption.equals("delete")) {
-            //delete listing with postId
-            //check if postId is not empty
-            if(!(postId.equals(""))){
-                Bson filter = eq("_id", postId);
-                DeleteResult result = usersCollection.deleteOne(filter);
-                System.out.println(result);
-            }
-
-        } else {
-            System.out.println("postOption ran through all options, end result is ELSE STATE");
         }
     }
 }
