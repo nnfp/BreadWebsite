@@ -1,5 +1,10 @@
 import com.google.gson.Gson;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 
@@ -9,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
+import static com.mongodb.client.model.Filters.eq;
 
 @WebSocket
 public class WebSocketHandler {
@@ -58,6 +64,13 @@ public class WebSocketHandler {
 
     //helper methods
     private static void handleListing(String res) {
+        //establish mongoConnection
+        MongoClient mongoClient = new MongoClient("localhost",27017);
+
+        MongoDatabase db = mongoClient.getDatabase("csc413finaldb");
+
+        MongoCollection<Document> usersCollection  = db.getCollection  ("listings");
+
         //listing variables
         String [] dataArray1;
         String [] dataArray2 = new String[12];
@@ -74,21 +87,55 @@ public class WebSocketHandler {
             System.out.println("RES COPY:"+resCopy);
             dataArray1 = resCopy.split(",");
             System.out.println("dataArray1" + Arrays.toString(dataArray1));
+
+            //copies splits to a single size 2 array and then copies it to dataArray2
             for (int i = 0, x = 0; i<6; i++){
                 pairHolder = dataArray1[i].split(":");
                 System.arraycopy(pairHolder, 0, dataArray2,x,2);
                 //ending
                 x=x+2;
             }
+            //dataArray2 odd index holds values (even holds keys)
             System.out.println("dataArray2" + Arrays.toString(dataArray2));
         }
 
+        //assigning variables
+        desc = dataArray2[1];
+        type = dataArray2[3];
+        price = dataArray2[5];
+        title = dataArray2[7];
+        postId = dataArray2[9];
+        postOption = dataArray2[11];
 
+        //checking postOption to see what the program needs to do
+        if(postOption.equals("create")) {
+            //send data and create json obj in MongoDB
+            //ignore postId, let mongo create a unique one
+            Document doc = new Document("description :",desc)
+                .append("type :",type)
+                .append("price :",price)
+                .append("title :",title);
 
+            usersCollection.insertOne(doc);
 
-//        Document doc = new Document("description :","test")
-//                .append("type :","test")
-//                .append("price :","test")
-//                .append("title :","test");
+        } else if(postOption.equals("edit")) {
+            //retrieve data and edit current listing with postId
+            //check if postId is not empty
+            if(!(postId.equals(""))){
+
+            }
+
+        } else if(postOption.equals("delete")) {
+            //delete listing with postId
+            //check if postId is not empty
+            if(!(postId.equals(""))){
+                Bson filter = eq("_id", postId);
+                DeleteResult result = usersCollection.deleteOne(filter);
+                System.out.println(result);
+            }
+
+        } else {
+            System.out.println("postOption ran through all options, end result is ELSE STATE");
+        }
     }
 }
