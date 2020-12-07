@@ -110,7 +110,6 @@ public class WebSocketHandler {
         //checking postOption to see what the program needs to do
         if(postOption.equals("create")) {
             //send data and create json obj in MongoDB
-            //ignore postId, let mongo create a unique one
             Document doc = new Document("description :",desc)
                 .append("type :",type)
                 .append("price :",price)
