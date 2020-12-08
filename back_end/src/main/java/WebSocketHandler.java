@@ -1,6 +1,8 @@
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import org.bson.types.ObjectId;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -153,7 +155,11 @@ public class WebSocketHandler {
                     //retrieve data and edit current listing with postId
                     //check if postId is not empty
                     if (!(postId.equals(""))) {
-
+                        ObjectId o = new ObjectId(postId);
+                        usersCollection.updateOne(Filters.eq("_id",o), Updates.set("description", desc));
+                        usersCollection.updateOne(Filters.eq("_id",o), Updates.set("type", type));
+                        usersCollection.updateOne(Filters.eq("_id",o), Updates.set("price", price));
+                        usersCollection.updateOne(Filters.eq("_id",o), Updates.set("title", title));
                     } else {
                         System.out.println("EDIT OPTION PROCCED: NO postId FOUND");
                     }
