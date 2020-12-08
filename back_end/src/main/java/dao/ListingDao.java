@@ -4,6 +4,8 @@ import dto.ListingDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import mongo.MongoConnection;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -60,6 +62,10 @@ implements DataAccessObject<ListingDto> {
     // use Document to delete single item
     Bson deleteId = new Document("entryId",id);
     collection.deleteOne(deleteId);
+
+    arrList = arrList.stream()
+            .filter(entryId -> entryId.equals(id))
+            .collect(Collectors.toList());
   }
 
 }
