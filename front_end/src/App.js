@@ -135,7 +135,7 @@ function App() {
           {messages.map(item => <div key={item.id}>{item}</div>)}
         </div>
 
-      <nav>
+      {/* <nav>
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -158,7 +158,7 @@ function App() {
         <Route path="/">
           <Home />
         </Route>
-      </Switch>
+      </Switch> */}
     </div>
   );
 }
