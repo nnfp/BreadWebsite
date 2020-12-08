@@ -13,10 +13,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import static com.mongodb.client.model.Filters.eq;
 
@@ -139,7 +136,7 @@ public class WebSocketHandler {
             switch (postOption) {
                 case "create":
                     //send data and create json obj in MongoDB
-                    Document doc = new Document("postId", )
+                    Document doc = new Document("postId", postIdGenerator())
                             .append("desc", desc)
                             .append("type", type)
                             .append("price", price)
@@ -162,7 +159,7 @@ public class WebSocketHandler {
                     //delete listing with postId
                     //check if postId is not empty
                     if (!(postId.equals(""))) {
-                        Bson filter = eq("_id", postId);
+                        Bson filter = eq("postId", postId);
                         DeleteResult result = usersCollection.deleteOne(filter);
                         System.out.println(result);
                     } else {
@@ -186,10 +183,10 @@ public class WebSocketHandler {
                 org.bson.Document nextDocument = cursor.next();
                 try {
                     String d = nextDocument.get("_id").toString();
-                    System.out.println(d);
+                    System.out.println("DOCUMENT ID: " + d);
                 }
                 catch(Exception e){
-
+                    System.out.println("Iterator error: " + e);
                 }
             }
         } finally {
@@ -198,10 +195,16 @@ public class WebSocketHandler {
     }
 
     private static String postIdGenerator(){
+        Random random = new Random();
+        String postId = "";
 
-        double postId = Math.random();
+        for(int i = 0; i<10; i++){
+            int randomInt = random.nextInt(10);
+            //System.out.println("Random Int(should be single digit):"+ randomInt);
+            postId = postId.concat(Integer.toString(randomInt));
+        }
 
-        return null;
+        return postId;
     }
 
 }
