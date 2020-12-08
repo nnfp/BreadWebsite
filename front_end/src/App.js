@@ -39,6 +39,9 @@ function App() {
       postId: document.getElementById('post-id').value,
       postOption: document.getElementById('post-option').value
     }
+
+    //sends JSON to back end as a string
+    websocket.send(JSON.stringify(listingData));
   }
   return (
     <div className="App">
