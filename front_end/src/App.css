@@ -55,8 +55,8 @@ html {
     gap: 1rem;
     grid-template-areas: 
     "header header header"
+    ". nav ."
     ". post ."
-    ". listing ."
     ". listing ."
 }
 
@@ -68,6 +68,10 @@ html {
   font-family: 'Source Code Pro', monospace;
   color: #774936;
   border-bottom: 3px dashed #ffffff;
+}
+
+.grid-nav {
+  grid-area: nav;
 }
 .grid-post {
   grid-area: post;

@@ -14,12 +14,6 @@ const websocket = new WebSocket('ws://localhost:1234/ws');
 function App() {
   const [message, setMessage] = React.useState('');
   const [messages, setMessages] = React.useState(['']);
-
-  //state to hold all listing data into an array
-  const [listings, setListings] = React.useState([]);
-  //another state to hold the array above into this array
-  const [allListings, setAllListings] = React.useState([]);
-
   //listing data
   const [postId, setPostId] = React.useState('');
   const [postOption, setPostOption] = React.useState('');
@@ -41,46 +35,8 @@ function App() {
 
   React.useEffect(() => {
     websocket.addEventListener('message', handleWebsocketMessage);
-    
-    // try{
-    // //call get request to backend to get all listings
-    // axios.get('/api/viewListings')
-    //   .then(function (res){
-    //     try{
-    //       //replace elements to show item data
-    //       //probably better to just replace 1 element
-    //     document.getElementById('XD').innerHTML = res.data.items[0].description;
-    //     document.getElementById('2').innerHTML = res.data.items[0].type;
-    //     document.getElementById('3').innerHTML = res.data.items[0].price;
-    //     document.getElementById('4').innerHTML = res.data.items[0].title;
-    //     }
-    //     catch(e){
-    //       console.log(e);
-    //     }
-    //   });
-    // }
-    // catch(e){
-    //   console.log(e);
-    // }
   }, []);
   function handleClick(){
-    //post req to backend to create a new listing
-    // axios.post('/api/createListing', {
-    //   description: document.getElementById('input-description').value,
-    //   type: document.getElementById('input-type').value,
-    //   price: document.getElementById('input-price').value,
-    //   title: document.getElementById('input-title').value
-    // })
-    //   .then(function (res){
-    //     console.log('created new listing');
-    //   });
-    // axios.get('/api/viewListings', {
-    // })
-    //   .then(function (res){
-    //     //should refresh listings after creating
-    //     console.log('//');
-    //   });
-
     var listingData = {
       descData: document.getElementById('input-description').value,
       typeData: document.getElementById('input-type').value,
@@ -89,14 +45,11 @@ function App() {
       postId: document.getElementById('post-id').value,
       postOption: document.getElementById('post-option').value
     }
-
     //refresh listings
     //websocket.send(listings);
-
     //single messages being sent
     setMessage('');
     websocket.send(message);
-
     //sending listingData object as json formatted to string
     websocket.send(JSON.stringify(listingData));
   }
@@ -106,6 +59,10 @@ function App() {
         <div class ="grid-header" id="website-header">
           <h1>Let's Get This Bread!</h1>
         </div>
+        <nav class="grid-nav">
+        <Link to="/">Home </Link>
+        <Link to="/feed">Feed</Link>
+        </nav>
         <div class="grid-post">
           <form class="grid-post-input">
           <input value={message} onChange={e => setMessage(e.target.value)} placeholder="message"/>
