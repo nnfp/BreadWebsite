@@ -111,8 +111,6 @@ public class WebSocketHandler {
             System.out.println("dataArray2" + Arrays.toString(dataArray2));
         }
 
-
-
         //default assignments
         desc = "";
         type = "";
@@ -143,7 +141,8 @@ public class WebSocketHandler {
             switch (postOption) {
                 case "create":
                     //send data and create json obj in MongoDB
-                    Document doc = new Document("description", desc)
+                    Document doc = new Document("postId", )
+                            .append("desc", desc)
                             .append("type", type)
                             .append("price", price)
                             .append("title", title);
@@ -203,4 +202,12 @@ public class WebSocketHandler {
             cursor.close();
         }
     }
+
+    private static String postIdGenerator(){
+
+        double postId = Math.random();
+
+        return null;
+    }
+
 }
