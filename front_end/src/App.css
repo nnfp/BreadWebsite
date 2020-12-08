@@ -94,9 +94,11 @@ h1.site-banner {
   
   padding: 3px;
 }
+
 #home {
   margin-right: 60px;
 }
+
 .grid-post {
   grid-area: post;
   font-family: 'Source Code Pro', monospace;
@@ -113,10 +115,21 @@ h1.site-banner {
     "inputs inputs inputs"
     ". submit ."
 }
+
+#post-header {
+  border-bottom: 10px dashed #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+    width: 80%;
+    margin: auto auto 10px auto;
+    padding: 5px;
+}
+
 .input-type{
   grid-area: inputs;
   padding: 20px;
 }
+
 input {
   margin-top: 5px;
   padding: 3px;  
@@ -126,6 +139,7 @@ input {
   font-family: 'Josefin Sans', sans-serif;
   color: #774936;
 }
+
 select {
   margin-top: 5px;
   padding: 3px;  
@@ -135,6 +149,7 @@ select {
   font-family: 'Josefin Sans', sans-serif;
   color: #774936;
 }
+
 button {
   margin: 5px;
   padding: 3px;  
@@ -146,9 +161,13 @@ button {
   background-color: #ffffff
 
 }
+button:hover{
+  color: #ffeed2;
+}
 .grid-submit {
   grid-area: submit;
 }
+
 .grid-listing {
   grid-area: listing;
 }

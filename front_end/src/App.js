@@ -42,18 +42,18 @@ function App() {
   }
   return (
     <div className="App">
-      <div class ="website-header site-banner">
+      <div className="website-header site-banner">
           <h1>Let's Get This Bread!</h1>
         </div>
-      <div class="grid-container">
+      <div className="grid-container">
         
-        <nav class="grid-nav website-header">
-        <a href="/" class="nav-button" id="home">Home</a>
-        <a href="/feed" class="nav-button">Feed</a>
+        <nav className="grid-nav website-header">
+        <a href="/" className="nav-button" id="home">Home</a>
+        <a href="/feed" className="nav-button">Feed</a>
         </nav>
-        <div class="grid-post">
-          <form class="grid-post-input">
-            <h2>Create a Post:</h2>
+        <div className="grid-post" key="app-key">
+          <form className="grid-post-input">
+            <h2 id="post-header">Create a Post:</h2>
             <input id='input-title' value={title} onChange={e => setTitle(e.target.value)} placeholder="Listing Title">
             </input>
             <br />
@@ -67,25 +67,25 @@ function App() {
             </input>
             <br />
             <select id='input-type' value={type} onChange={e => setType(e.target.value)}>
-              <option value="" disabled selected>Bread Type</option>
+              <option value="" disabled defaultValue>Bread Type</option>
             </select>
             <select id='post-option' value={postOption} onChange={e => setPostOption(e.target.value)}>
-              <option value="" disabled selected>Post Option</option>
+              <option value="" disabled defaultValue>Post Option</option>
               <option value="create">Create</option>
               <option value="edit">Edit</option>
               <option value="delete">Delete</option>
             </select>
           </form>
-          <button id='submit' class="grid-submit" onClick={handleClick}>
+          <button id='submit' className="grid-submit" onClick={handleClick}>
               Submit
             </button>
         </div>
-        <div class="grid-listing website-header" id="listings-header">
+        <div className="grid-listing website-header" id="listings-header">
           <h2>Listings</h2>
             {messages.map(item => <div key={item.id}>{item}</div>)}
         </div>
       </div>
-      <div class="footer">
+      <div className="footer">
           
       </div>
     </div>
