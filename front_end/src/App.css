@@ -36,3 +36,58 @@
     transform: rotate(360deg);
   }
 }
+
+/* website-theme*/
+html {
+  background-color: #774936;
+}
+
+
+/* grid */
+
+.grid-container{
+  background-color: #EFD09E;
+  display: grid;
+  width: 60%;
+  margin: 100px auto auto auto;
+    grid-template-rows: min-content;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    grid-template-areas: 
+    "header header header"
+    ". post ."
+    ". listing ."
+    ". listing ."
+}
+
+.grid-header {
+  
+  grid-area: header;
+}
+#website-header {
+  font-family: 'Source Code Pro', monospace;
+  color: #774936;
+  border-bottom: 3px dashed #ffffff;
+}
+.grid-post {
+  grid-area: post;
+  
+  
+  grid-template-rows: min-content;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    grid-template-areas: 
+    "inputs inputs inputs"
+    ". submit ."
+}
+
+.grid-post-input {
+  grid-area: inputs;
+}
+
+.grid-submit {
+  grid-area: submit;
+}
+.grid-listing {
+  grid-area: listing;
+}
