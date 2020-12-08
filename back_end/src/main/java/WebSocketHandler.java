@@ -1,5 +1,14 @@
 import com.google.gson.Gson;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import org.bson.types.ObjectId;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 
@@ -9,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
+import static com.mongodb.client.model.Filters.eq;
 
 @WebSocket
 public class WebSocketHandler {
@@ -56,8 +66,21 @@ public class WebSocketHandler {
         broadcast(gson.toJson(messages));
     }
 
+    @OnWebSocketError
+    public void error(Session session, Throwable error){
+        // handles errors
+        System.out.println(error.toString());
+    }
+
     //helper methods
     private static void handleListing(String res) {
+        //establish mongoConnection
+        MongoClient mongoClient = new MongoClient("localhost",27017);
+
+        MongoDatabase db = mongoClient.getDatabase("csc413finaldb");
+
+        MongoCollection<Document> usersCollection  = db.getCollection  ("listings");
+
         //listing variables
         String [] dataArray1;
         String [] dataArray2 = new String[12];
@@ -74,21 +97,111 @@ public class WebSocketHandler {
             System.out.println("RES COPY:"+resCopy);
             dataArray1 = resCopy.split(",");
             System.out.println("dataArray1" + Arrays.toString(dataArray1));
+
+            //copies splits to a single size 2 array and then copies it to dataArray2
             for (int i = 0, x = 0; i<6; i++){
                 pairHolder = dataArray1[i].split(":");
                 System.arraycopy(pairHolder, 0, dataArray2,x,2);
                 //ending
                 x=x+2;
             }
+            //dataArray2 odd index holds values (even holds keys)
             System.out.println("dataArray2" + Arrays.toString(dataArray2));
         }
 
+        //default assignments
+        desc = "";
+        type = "";
+        price = "";
+        title = "";
+        postId = "";
+        postOption = "";
 
+        //checks if json sent, then removes extra quotes
+        if (res.contains("{")) {
+            desc = dataArray2[1];
+            desc = desc.replace("\"", "");
+            type = dataArray2[3];
+            type = type.replace("\"", "");
+            price = dataArray2[5];
+            price = price.replace("\"", "");
+            title = dataArray2[7];
+            title = title.replace("\"", "");
+            postId = dataArray2[9];
+            postId = postId.replace("\"", "");
+            postOption = dataArray2[11];
+            postOption = postOption.replace("\"", "");
+            System.out.println("RES = " + res + "| postOption = " + postOption);
+        }
 
+        //checking postOption to see what the program needs to do
+        if (res.contains("{")){
+            switch (postOption) {
+                case "create":
+                    //send data and create json obj in MongoDB
+                    Document doc = new Document("postId", )
+                            .append("desc", desc)
+                            .append("type", type)
+                            .append("price", price)
+                            .append("title", title);
 
-//        Document doc = new Document("description :","test")
-//                .append("type :","test")
-//                .append("price :","test")
-//                .append("title :","test");
+                    usersCollection.insertOne(doc);
+
+                    break;
+                case "edit":
+                    //retrieve data and edit current listing with postId
+                    //check if postId is not empty
+                    if (!(postId.equals(""))) {
+
+                    } else {
+                        System.out.println("EDIT OPTION PROCCED: NO postId FOUND");
+                    }
+
+                    break;
+                case "delete":
+                    //delete listing with postId
+                    //check if postId is not empty
+                    if (!(postId.equals(""))) {
+                        Bson filter = eq("_id", postId);
+                        DeleteResult result = usersCollection.deleteOne(filter);
+                        System.out.println(result);
+                    } else {
+                        System.out.println("DELETE OPTION PROCCED: NO postId FOUND");
+                    }
+
+                    break;
+                default:
+                    System.out.println("postOption ran through all options, end result is ELSE STATE");
+                    break;
+            }
+        }
+
+        //mongoTests
+        //iterate over all documents in collection
+        MongoCursor<Document> cursor = usersCollection.find().iterator();
+        try {
+            while (cursor.hasNext()) {
+                //System.out.println("DOCUMENT PRINT: " + cursor.next().toJson());
+                //returns add objectIds
+                org.bson.Document nextDocument = cursor.next();
+                try {
+                    String d = nextDocument.get("_id").toString();
+                    System.out.println(d);
+                }
+                catch(Exception e){
+
+                }
+            }
+        } finally {
+            cursor.close();
+        }
     }
+
+    private static String postIdGenerator(){
+
+        double postId = Math.random();
+
+        return null;
+    }
+
 }

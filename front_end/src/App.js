@@ -36,7 +36,7 @@ function App() {
 
   //listing handler
   websocket.onopen = function(event) {
-    websocket.send('Websocket now accepting data!');
+    //websocket.send('Websocket now accepting data!');
   };
 
   React.useEffect(() => {
