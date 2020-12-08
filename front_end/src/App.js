@@ -111,21 +111,24 @@ function App() {
 }
 function displayListing(listingData) {
   let listingDiv = document.createElement('div');
+  let listingTitle = document.createElement('p');
   let listingDesc = document.createElement('p');
   let listingType = document.createElement('p');
-  let listingPrice = document.createElement('p');
-  let listingTitle = document.createElement('p');
-  let listingValues = document.createElement('p'); 
+  let listingPrice = document.createElement('p'); 
+  let listingHeader = document.createElement('h3'); 
+  listingDiv.setAttribute("id", listingData.postId);
+  listingDiv.setAttribute("class", "individual-posts");
+  listingTitle.innerHTML = "Title: " + listingData.titleData;
   listingDesc.innerHTML = "Description: " + listingData.descData;
   listingType.innerHTML = "Type: " + listingData.typeData;
   listingPrice.innerHTML = "Price: " + listingData.priceData;
-  listingTitle.innerHTML = "Title: " + listingData.titleData;
+  listingHeader.innerHTML = "POST #" + listingData.postId;
   document.getElementById('listings').appendChild(listingDiv); 
-  listingDiv.appendChild(listingValues);
+  listingDiv.appendChild(listingHeader);
+  listingDiv.appendChild(listingTitle);
   listingDiv.appendChild(listingDesc);
   listingDiv.appendChild(listingType);
   listingDiv.appendChild(listingPrice);
-  listingDiv.appendChild(listingTitle);
 }
 export default App;
 
