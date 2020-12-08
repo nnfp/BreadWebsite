@@ -170,10 +170,15 @@ button:hover{
 
 .grid-listing {
   grid-area: listing;
+  max-width: 80%;
 }
 
 #listings-header{
   border-bottom: 10px dashed #D4AA7D;
     border-width: 3px;
     border-radius: 10px;
+}
+
+.listings text{
+  text-align: left;
 }

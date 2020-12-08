@@ -42,6 +42,7 @@ function App() {
 
     //sends JSON to back end as a string
     websocket.send(JSON.stringify(listingData));
+    displayListing(listingData);
   }
   return (
     <div className="App">
@@ -97,7 +98,9 @@ function App() {
         </div>
         <div className="grid-listing website-header" id="listings-header">
           <h2>Listings</h2>
-            {messages.map(item => <div key={item.id}>{item}</div>)}
+          <div id="listings">
+
+          </div>
         </div>
       </div>
       <div className="footer">
@@ -106,6 +109,23 @@ function App() {
     </div>
   );
 }
-
+function displayListing(listingData) {
+  let listingDiv = document.createElement('div');
+  let listingDesc = document.createElement('p');
+  let listingType = document.createElement('p');
+  let listingPrice = document.createElement('p');
+  let listingTitle = document.createElement('p');
+  let listingValues = document.createElement('p'); 
+  listingDesc.innerHTML = "Description: " + listingData.descData;
+  listingType.innerHTML = "Type: " + listingData.typeData;
+  listingPrice.innerHTML = "Price: " + listingData.priceData;
+  listingTitle.innerHTML = "Title: " + listingData.titleData;
+  document.getElementById('listings').appendChild(listingDiv); 
+  listingDiv.appendChild(listingValues);
+  listingDiv.appendChild(listingDesc);
+  listingDiv.appendChild(listingType);
+  listingDiv.appendChild(listingPrice);
+  listingDiv.appendChild(listingTitle);
+}
 export default App;
 
