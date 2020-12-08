@@ -1,6 +1,10 @@
 import com.google.gson.Gson;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import org.bson.types.ObjectId;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
@@ -105,6 +109,8 @@ public class WebSocketHandler {
             System.out.println("dataArray2" + Arrays.toString(dataArray2));
         }
 
+
+
         //default assignments
         desc = "";
         type = "";
@@ -135,10 +141,10 @@ public class WebSocketHandler {
             switch (postOption) {
                 case "create":
                     //send data and create json obj in MongoDB
-                    Document doc = new Document("description :", desc)
-                            .append("type :", type)
-                            .append("price :", price)
-                            .append("title :", title);
+                    Document doc = new Document("description", desc)
+                            .append("type", type)
+                            .append("price", price)
+                            .append("title", title);
 
                     usersCollection.insertOne(doc);
 
@@ -169,6 +175,17 @@ public class WebSocketHandler {
                     System.out.println("postOption ran through all options, end result is ELSE STATE");
                     break;
             }
+        }
+
+        //mongoTests
+        //iterate over all documents in collection
+        MongoCursor<Document> cursor = usersCollection.find().iterator();
+        try {
+            while (cursor.hasNext()) {
+                System.out.println("DOCUMENT PRINT: " + cursor.next().toJson());
+            }
+        } finally {
+            cursor.close();
         }
     }
 }
