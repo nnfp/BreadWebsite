@@ -198,7 +198,6 @@ public class WebSocketHandler {
         Random random = new Random();
         String postId = "";
 
-        //
         for(int i = 0; i<10; i++){
             int randomInt = random.nextInt(10);
             //System.out.println("Random Int(should be single digit):"+ randomInt);
