@@ -41,41 +41,70 @@
 html {
   background-color: #774936;
 }
-
-
 /* grid */
 
 .grid-container{
   background-color: #EFD09E;
   display: grid;
   width: 60%;
-  margin: 100px auto auto auto;
+  padding: 12px;
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+  margin: 50px auto auto auto;
     grid-template-rows: min-content;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
     grid-template-areas: 
-    "header header header"
-    ". nav ."
-    ". post ."
-    ". listing ."
+    ". . nav . ."
+    ". post post post ."
+    ". listing listing listing ."
 }
 
 .grid-header {
-  
   grid-area: header;
 }
-#website-header {
+h1.site-banner {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.website-header {
   font-family: 'Source Code Pro', monospace;
   color: #774936;
-  border-bottom: 3px dashed #ffffff;
+  background-color: #ffeed2;
+  border: 10px solid #D4AA7D;
+    border-width: 4px;
+    border-radius: 10px;
 }
 
 .grid-nav {
+  padding: 10px;
   grid-area: nav;
+}
+
+.nav-button {
+  text-decoration:none;
+  font-family: 'Source Code Pro', monospace;
+  color: #774936;
+  background-color: white;
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+  
+  padding: 3px;
+}
+#home {
+  margin-right: 60px;
 }
 .grid-post {
   grid-area: post;
-  
+  font-family: 'Source Code Pro', monospace;
+  color: #774936;
+  background-color: #ffeed2;
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
   
   grid-template-rows: min-content;
     grid-template-columns: repeat(3, 1fr);
@@ -84,14 +113,48 @@ html {
     "inputs inputs inputs"
     ". submit ."
 }
-
-.grid-post-input {
+.input-type{
   grid-area: inputs;
+  padding: 20px;
 }
+input {
+  margin-top: 5px;
+  padding: 3px;  
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #774936;
+}
+select {
+  margin-top: 5px;
+  padding: 3px;  
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #774936;
+}
+button {
+  margin: 5px;
+  padding: 3px;  
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #774936;
+  background-color: #ffffff
 
+}
 .grid-submit {
   grid-area: submit;
 }
 .grid-listing {
   grid-area: listing;
+}
+
+#listings-header{
+  border-bottom: 10px dashed #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
 }

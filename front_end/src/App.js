@@ -27,11 +27,9 @@ function App() {
     const newMessages = JSON.parse(messageEvent.data);
     setMessages(newMessages);
   };
-
   React.useEffect(() => {
     websocket.addEventListener('message', handleWebsocketMessage);
   }, []);
-
   function handleClick(){
     var listingData = {
       descData: document.getElementById('input-description').value,
@@ -41,46 +39,36 @@ function App() {
       postId: document.getElementById('post-id').value,
       postOption: document.getElementById('post-option').value
     }
-    
-    //sending listingData object as json formatted to string
-    websocket.send(JSON.stringify(listingData));
   }
   return (
     <div className="App">
-      <div class="grid-container">
-        <div class ="grid-header" id="website-header">
+      <div class ="website-header site-banner">
           <h1>Let's Get This Bread!</h1>
         </div>
-        <nav class="grid-nav">
-        <Link to="/">Home </Link>
-        <Link to="/feed">Feed</Link>
+      <div class="grid-container">
+        
+        <nav class="grid-nav website-header">
+        <a href="/" class="nav-button" id="home">Home</a>
+        <a href="/feed" class="nav-button">Feed</a>
         </nav>
         <div class="grid-post">
           <form class="grid-post-input">
-            <input id='input-description' value={desc} onChange={e => setDesc(e.target.value)} placeholder="Description">
-            </input>
-            <select id='input-type' value={type} onChange={e => setType(e.target.value)}>
-              <option value="" disabled selected>Bread Type</option>
-              <option value="banana_bread">Banana Bread</option>
-              <option value="baguette">Baguette</option>
-              <option value="brioche">Brioche</option>
-              <option value="challah">Challah</option>
-              <option value="ciabatta">Ciabatta</option>
-              <option value="cornbread">Cornbread</option>
-              <option value="focaccia">Focaccia</option>
-              <option value="multigrain_bread">Multigrain Bread</option>
-              <option value="pita_bread">Pita Bread</option>
-              <option value="pumpernickel">Pumpernickel</option>
-              <option value="rye_bread">Rye Bread</option>
-              <option value="sourdough">Sourdough</option>
-
-            </select>
-            <input id='input-price' value={price} onChange={e => setPrice(e.target.value)} placeholder="Price">
-            </input>
+            <h2>Create a Post:</h2>
             <input id='input-title' value={title} onChange={e => setTitle(e.target.value)} placeholder="Listing Title">
             </input>
+            <br />
+            <input id='input-description' value={desc} onChange={e => setDesc(e.target.value)} placeholder="Description">
+            </input>
+            <br />
+            <input id='input-price' value={price} onChange={e => setPrice(e.target.value)} placeholder="Price">
+            </input>
+            <br />
             <input id='post-id' value={postId} onChange={e => setPostId(e.target.value)} placeholder="Post ID">
             </input>
+            <br />
+            <select id='input-type' value={type} onChange={e => setType(e.target.value)}>
+              <option value="" disabled selected>Bread Type</option>
+            </select>
             <select id='post-option' value={postOption} onChange={e => setPostOption(e.target.value)}>
               <option value="" disabled selected>Post Option</option>
               <option value="create">Create</option>
@@ -92,13 +80,17 @@ function App() {
               Submit
             </button>
         </div>
-        <div class="grid-listing">
-          <h2>Listings:</h2>
+        <div class="grid-listing website-header" id="listings-header">
+          <h2>Listings</h2>
             {messages.map(item => <div key={item.id}>{item}</div>)}
         </div>
+      </div>
+      <div class="footer">
+          
       </div>
     </div>
   );
 }
 
 export default App;
+
