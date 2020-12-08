@@ -68,6 +68,18 @@ function App() {
             <br />
             <select id='input-type' value={type} onChange={e => setType(e.target.value)}>
               <option value="" disabled defaultValue>Bread Type</option>
+              <option value="banana_bread">Banana Bread</option>
+              <option value="baguette">Baguette</option>
+              <option value="brioche">Brioche</option>
+              <option value="challah">Challah</option>
+              <option value="ciabatta">Ciabatta</option>
+              <option value="cornbread">Cornbread</option>
+              <option value="focaccia">Focaccia</option>
+              <option value="multigrain_bread">Multigrain Bread</option>
+              <option value="pita_bread">Pita Bread</option>
+              <option value="pumpernickel">Pumpernickel</option>
+              <option value="rye_bread">Rye Bread</option>
+              <option value="sourdough">Sourdough</option>
             </select>
             <select id='post-option' value={postOption} onChange={e => setPostOption(e.target.value)}>
               <option value="" disabled defaultValue>Post Option</option>
