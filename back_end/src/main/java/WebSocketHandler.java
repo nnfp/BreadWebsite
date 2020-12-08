@@ -181,7 +181,16 @@ public class WebSocketHandler {
         MongoCursor<Document> cursor = usersCollection.find().iterator();
         try {
             while (cursor.hasNext()) {
-                System.out.println("DOCUMENT PRINT: " + cursor.next().toJson());
+                //System.out.println("DOCUMENT PRINT: " + cursor.next().toJson());
+                //returns add objectIds
+                org.bson.Document nextDocument = cursor.next();
+                try {
+                    String d = nextDocument.get("_id").toString();
+                    System.out.println(d);
+                }
+                catch(Exception e){
+
+                }
             }
         } finally {
             cursor.close();
