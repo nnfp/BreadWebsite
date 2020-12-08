@@ -151,11 +151,11 @@ public class WebSocketHandler {
                     //retrieve data and edit current listing with postId
                     //check if postId is not empty
                     if (!(postId.equals(""))) {
-                        ObjectId o = new ObjectId(postId);
-                        usersCollection.updateOne(Filters.eq("_id",o), Updates.set("description", desc));
-                        usersCollection.updateOne(Filters.eq("_id",o), Updates.set("type", type));
-                        usersCollection.updateOne(Filters.eq("_id",o), Updates.set("price", price));
-                        usersCollection.updateOne(Filters.eq("_id",o), Updates.set("title", title));
+                        //ObjectId o = new ObjectId(postId);
+                        usersCollection.updateOne(Filters.eq("postId",postId), Updates.set("desc", desc));
+                        usersCollection.updateOne(Filters.eq("postId",postId), Updates.set("type", type));
+                        usersCollection.updateOne(Filters.eq("postId",postId), Updates.set("price", price));
+                        usersCollection.updateOne(Filters.eq("postId",postId), Updates.set("title", title));
                     } else {
                         System.out.println("EDIT OPTION PROCCED: NO postId FOUND");
                     }
@@ -174,7 +174,7 @@ public class WebSocketHandler {
 
                     break;
                 default:
-                    System.out.println("postOption ran through all options, end result is ELSE STATE");
+                    System.out.println("postOption ran through all cases, end result is DEFAULT CASE");
                     break;
             }
         }
