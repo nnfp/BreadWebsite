@@ -104,7 +104,7 @@ function App() {
     <div className="App">
       <h1>Final Project App</h1>
       <div key='xd'>
-          <input value={message} onChange={e => setMessage(e.target.value)} placeholder="message"/>
+          {/* <input value={message} onChange={e => setMessage(e.target.value)} placeholder="message"/> */}
           <input id='input-description' value={desc} onChange={e => setDesc(e.target.value)} placeholder="Description">
           </input>
           <select id='input-type' value={type} onChange={e => setType(e.target.value)}>
