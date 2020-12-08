@@ -28,14 +28,10 @@ function App() {
     setMessages(newMessages);
   };
 
-  //listing handler
-  websocket.onopen = function(event) {
-    //websocket.send('Websocket now accepting data!');
-  };
-
   React.useEffect(() => {
     websocket.addEventListener('message', handleWebsocketMessage);
   }, []);
+
   function handleClick(){
     var listingData = {
       descData: document.getElementById('input-description').value,
@@ -45,11 +41,7 @@ function App() {
       postId: document.getElementById('post-id').value,
       postOption: document.getElementById('post-option').value
     }
-    //refresh listings
-    //websocket.send(listings);
-    //single messages being sent
-    setMessage('');
-    websocket.send(message);
+    
     //sending listingData object as json formatted to string
     websocket.send(JSON.stringify(listingData));
   }
@@ -65,15 +57,23 @@ function App() {
         </nav>
         <div class="grid-post">
           <form class="grid-post-input">
-          <input value={message} onChange={e => setMessage(e.target.value)} placeholder="message"/>
             <input id='input-description' value={desc} onChange={e => setDesc(e.target.value)} placeholder="Description">
             </input>
             <select id='input-type' value={type} onChange={e => setType(e.target.value)}>
               <option value="" disabled selected>Bread Type</option>
-              <option value="bread 1">bread 1</option>
-              <option value="bread 2">bread 2</option>
-              <option value="bread 3">bread 3</option>
-              <option value="bread 4">bread 4</option>
+              <option value="banana_bread">Banana Bread</option>
+              <option value="baguette">Baguette</option>
+              <option value="brioche">Brioche</option>
+              <option value="challah">Challah</option>
+              <option value="ciabatta">Ciabatta</option>
+              <option value="cornbread">Cornbread</option>
+              <option value="focaccia">Focaccia</option>
+              <option value="multigrain_bread">Multigrain Bread</option>
+              <option value="pita_bread">Pita Bread</option>
+              <option value="pumpernickel">Pumpernickel</option>
+              <option value="rye_bread">Rye Bread</option>
+              <option value="sourdough">Sourdough</option>
+
             </select>
             <input id='input-price' value={price} onChange={e => setPrice(e.target.value)} placeholder="Price">
             </input>
