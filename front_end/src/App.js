@@ -32,13 +32,6 @@ function App() {
   };
 
   function handleClick(){
-    var docJson = {
-      descData: "",
-      typeData: "",
-      priceData: "",
-      titleData: "",
-      postId: ""
-    }
 
     var listingData = {
       descData: document.getElementById('input-description').value,
@@ -64,7 +57,7 @@ function App() {
       typeData: "",
       priceData: "",
       titleData: "",
-      postId: ""
+      postId: "nullPost"
     }
 
     //string manipulation to separate message
@@ -107,9 +100,10 @@ function App() {
     }
     console.log("docJson data after parsing: " + JSON.stringify(docJson));
 
-    var blankDoc;
-    displayListing(docJson);
-
+    var blankDoc = Boolean(docJson.postId == "nullPost");
+    if(!blankDoc){
+      displayListing(docJson);
+    }
     }
 
   return (
