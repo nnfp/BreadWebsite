@@ -20,6 +20,7 @@ function App() {
   //can edit this to get all listings possibly
   const handleWebsocketMessage = (messageEvent) => {
     const newMessage = messageEvent.data;
+    //calls function that parses incoming JSON and calls another function which renders it
     parseJson(newMessage);
   };
 
@@ -32,6 +33,7 @@ function App() {
   };
 
   function handleClick(){
+    //clearListings();
 
     var listingData = {
       descData: document.getElementById('input-description').value,
@@ -44,14 +46,9 @@ function App() {
 
     //sends JSON to back end as a string
     websocket.send(JSON.stringify(listingData));
-
-    //displayListing to be called to render listings on screen after user creates/edit/delete
-    // parseJson(newMessage);
-    // displayListing(docJson);
   }
 
   function parseJson(res){
-    //console.log('grabJSON MESSAGE RECIEVED: '+ res);
     var docJson = {
       descData: "",
       typeData: "",
@@ -70,7 +67,6 @@ function App() {
       
       //keyValueArray contains all key value pairs
       //order: postId, desc, type, price, title, ts (timestamp)
-      
       var keyValueArray = allData.split('", ');
 
       
@@ -161,7 +157,7 @@ function App() {
         <div className="grid-listing website-header" id="listings-header">
           <h2>Listings</h2>
           <div id="listings">
-          {/* {messages.slice(0).reverse().map(item => <div key={item.id}>{item}</div>)} */}
+
           </div>
         </div>
       </div>
@@ -171,6 +167,7 @@ function App() {
     </div>
   );
 }
+
 function displayListing(jsonDoc) {
   let listingDiv = document.createElement('div');
   let listingTitle = document.createElement('p');
@@ -191,6 +188,11 @@ function displayListing(jsonDoc) {
   listingDiv.appendChild(listingDesc);
   listingDiv.appendChild(listingType);
   listingDiv.appendChild(listingPrice);
+}
+
+function clearListings() {
+  var element = document.getElementById('id');
+  element.remove();
 }
 
 export default App;
