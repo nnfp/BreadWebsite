@@ -76,7 +76,8 @@ public class WebSocketHandler {
             while (cursor.hasNext()){
                 String nextJson = cursor.next().toJson();
                 System.out.println("Document Data: " + nextJson);
-                messages.add(nextJson);
+                //messages.add(nextJson);
+                broadcast(nextJson);
             }
         } finally {
             cursor.close();
@@ -84,7 +85,7 @@ public class WebSocketHandler {
 
         // trigger a broadcast
         Gson gson = new Gson();
-        broadcast(gson.toJson(messages));
+        //broadcast(gson.toJson(messages));
     }
 
     @OnWebSocketError
@@ -232,6 +233,27 @@ public class WebSocketHandler {
         }
 
         return postId;
+    }
+
+    private static void sendJsonData () {
+        MongoClient mongoClient = new MongoClient("localhost",27017);
+
+        MongoDatabase db = mongoClient.getDatabase("csc413finaldb");
+
+        MongoCollection<Document> usersCollection  = db.getCollection  ("listings");
+
+        //grabbing mongo documents
+        MongoCursor<Document> cursor = usersCollection.find().iterator();
+        try {
+            while (cursor.hasNext()){
+                String nextJson = cursor.next().toJson();
+                System.out.println("Document Data: " + nextJson);
+                //messages.add(nextJson);
+                broadcast(nextJson);
+            }
+        } finally {
+            cursor.close();
+        }
     }
 
 }

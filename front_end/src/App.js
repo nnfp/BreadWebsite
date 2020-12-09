@@ -1,9 +1,4 @@
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import Admin from './pages/Admin';
-import Feed from './pages/Feed';
-import Home from './pages/Home';
-import axios from 'axios';
 import './App.css';
 
 // React components
@@ -12,8 +7,8 @@ const websocket = new WebSocket('ws://localhost:1234/ws');
 //requires server running in backend
 
 function App() {
-  const [message, setMessage] = React.useState('');
-  const [messages, setMessages] = React.useState(['']);
+  // const [message, setMessage] = React.useState('');
+  // const [messages, setMessages] = React.useState('');
   //listing data
   const [postId, setPostId] = React.useState('');
   const [postOption, setPostOption] = React.useState('');
@@ -24,8 +19,8 @@ function App() {
 
   //can edit this to get all listings possibly
   const handleWebsocketMessage = (messageEvent) => {
-    const newMessages = JSON.parse(messageEvent.data);
-    setMessages(newMessages);
+    const newMessage = messageEvent.data;
+    grabJson(newMessage);
   };
 
   React.useEffect(() => {
@@ -52,8 +47,13 @@ function App() {
 
 
     //displayListing to be called to render listings on screen after user creates/edit/delete
-    
+
   }
+
+  function grabJson(message){
+    console.log('grabJSON MESSAGE RECIEVED: '+message);
+    }
+
   return (
     <div className="App">
       <div className="website-header site-banner">
@@ -109,7 +109,8 @@ function App() {
         <div className="grid-listing website-header" id="listings-header">
           <h2>Listings</h2>
           <div id="listings">
-          {messages.map(item => <div key={item.id}>{item}</div>)}
+            <body onLoad={grabJson}></body>
+          {/* {messages.map(item => <div key={item.id}>{item}</div>)} */}
           </div>
         </div>
       </div>
@@ -140,6 +141,7 @@ function displayListing(listingData) {
   listingDiv.appendChild(listingType);
   listingDiv.appendChild(listingPrice);
 }
+
 
 function deleteListing(listingData) {
   document.getElementById(listingData.postId).remove();
