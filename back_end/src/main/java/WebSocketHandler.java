@@ -231,8 +231,36 @@ public class WebSocketHandler {
             //System.out.println("Random Int(should be single digit):"+ randomInt);
             postId = postId.concat(Integer.toString(randomInt));
         }
+        while(checkPostIdExists(postId)){
+            random = new Random();
+            postId = "";
 
+            for(int i = 0; i<10; i++){
+                int randomInt = random.nextInt(10);
+                //System.out.println("Random Int(should be single digit):"+ randomInt);
+                postId = postId.concat(Integer.toString(randomInt));
+            }
+        }
         return postId;
+    }
+    private static boolean checkPostIdExists(String postId){
+        MongoClient mongoClient = new MongoClient("localhost",27017);
+
+        MongoDatabase db = mongoClient.getDatabase("csc413finaldb");
+
+        MongoCollection<Document> usersCollection  = db.getCollection  ("listings");
+        MongoCursor<Document> cursor = usersCollection.find().iterator();
+        try {
+            while (cursor.hasNext()){
+                String nextJson = cursor.next().toJson();
+                if(nextJson.contains(postId)){
+                    return true;
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+        return false;
     }
 
     private static void sendJsonData () {
