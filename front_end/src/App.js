@@ -49,6 +49,10 @@ function App() {
     //sends JSON to back end as a string
     websocket.send(JSON.stringify(listingData));
     //displayListing(listingData);
+
+
+    //displayListing to be called to render listings on screen after user creates/edit/delete
+    
   }
   return (
     <div className="App">
