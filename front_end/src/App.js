@@ -27,9 +27,15 @@ function App() {
     const newMessages = JSON.parse(messageEvent.data);
     setMessages(newMessages);
   };
+
   React.useEffect(() => {
     websocket.addEventListener('message', handleWebsocketMessage);
   }, []);
+
+  websocket.onmessage = function(event) {
+    console.log("Websocket message recieved: " +  event);
+  };
+
   function handleClick(){
     var listingData = {
       descData: document.getElementById('input-description').value,
@@ -42,7 +48,7 @@ function App() {
 
     //sends JSON to back end as a string
     websocket.send(JSON.stringify(listingData));
-    displayListing(listingData);
+    //displayListing(listingData);
   }
   return (
     <div className="App">
@@ -99,7 +105,7 @@ function App() {
         <div className="grid-listing website-header" id="listings-header">
           <h2>Listings</h2>
           <div id="listings">
-
+          {messages.map(item => <div key={item.id}>{item}</div>)}
           </div>
         </div>
       </div>

@@ -14,6 +14,7 @@ import org.bson.conversions.Bson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -56,10 +57,30 @@ public class WebSocketHandler {
 
     @OnWebSocketMessage
     public void message(Session session, String message){
+        MongoClient mongoClient = new MongoClient("localhost",27017);
+
+        MongoDatabase db = mongoClient.getDatabase("csc413finaldb");
+
+        MongoCollection<Document> usersCollection  = db.getCollection  ("listings");
+
+
         System.out.println("Client has sent: " + message);
-        messages.add(message); //store message
+        //messages.add(message); //store message
 
         handleListing(message);
+
+        //grabbing mongo documents
+        MongoCursor<Document> cursor = usersCollection.find().iterator();
+        try {
+            while (cursor.hasNext()){
+                String nextJson = cursor.next().toJson();
+                System.out.println("Document Data: " + nextJson);
+                messages.add(nextJson);
+            }
+        } finally {
+            cursor.close();
+        }
+
         // trigger a broadcast
         Gson gson = new Gson();
         broadcast(gson.toJson(messages));
@@ -93,9 +114,9 @@ public class WebSocketHandler {
         if(res.contains("{")){
             resCopy = res.replace("{", "");
             resCopy = resCopy.replace("}", "");
-            System.out.println("RES COPY:"+resCopy);
+            //System.out.println("RES COPY:"+resCopy);
             dataArray1 = resCopy.split(",");
-            System.out.println("dataArray1" + Arrays.toString(dataArray1));
+            //System.out.println("dataArray1" + Arrays.toString(dataArray1));
 
             //copies splits to a single size 2 array and then copies it to dataArray2
             for (int i = 0, x = 0; i<6; i++){
@@ -105,7 +126,7 @@ public class WebSocketHandler {
                 x=x+2;
             }
             //dataArray2 odd index holds values (even holds keys)
-            System.out.println("dataArray2" + Arrays.toString(dataArray2));
+            //System.out.println("dataArray2" + Arrays.toString(dataArray2));
         }
 
         //default assignments
@@ -130,8 +151,17 @@ public class WebSocketHandler {
             postId = postId.replace("\"", "");
             postOption = dataArray2[11];
             postOption = postOption.replace("\"", "");
-            System.out.println("RES = " + res + "| postOption = " + postOption);
+            //System.out.println("RES = " + res + "| postOption = " + postOption);
         }
+
+        //print incoming data to review
+        System.out.println ("RESPONSE PARSED:\n" +
+                "   Title: " + title + "\n" +
+                "   Description: " + desc + "\n" +
+                "   Price: " + price + "\n" +
+                "   Bread Type: " + type + "\n" +
+                "   PostId: " + postId + "\n" +
+                "   Post Option: " + postOption);
 
         //checking postOption to see what the program needs to do
         if (res.contains("{")){
@@ -179,25 +209,15 @@ public class WebSocketHandler {
             }
         }
 
-        //mongoTests
-        //iterate over all documents in collection
-        MongoCursor<Document> cursor = usersCollection.find().iterator();
-        try {
-            while (cursor.hasNext()) {
-                //System.out.println("DOCUMENT PRINT: " + cursor.next().toJson());
-                //returns add objectIds
-                org.bson.Document nextDocument = cursor.next();
-                try {
-                    String d = nextDocument.get("_id").toString();
-                    System.out.println("DOCUMENT ID: " + d);
-                }
-                catch(Exception e){
-                    System.out.println("Iterator error: " + e);
-                }
-            }
-        } finally {
-            cursor.close();
-        }
+//        //grabbing mongo documents
+//        MongoCursor<Document> cursor = usersCollection.find().iterator();
+//        try {
+//            while (cursor.hasNext()){
+//                System.out.println("Document Data: " + cursor.next().toJson());
+//            }
+//        } finally {
+//            cursor.close();
+//        }
     }
 
     private static String postIdGenerator(){
