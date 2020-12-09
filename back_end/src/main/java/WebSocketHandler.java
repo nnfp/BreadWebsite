@@ -46,7 +46,6 @@ public class WebSocketHandler {
         Gson gson = new Gson();
         // test that we can see messages
         session.getRemote().sendString(gson.toJson(messages));
-        System.out.println("hi");
     }
 
     @OnWebSocketClose
