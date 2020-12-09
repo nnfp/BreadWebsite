@@ -33,7 +33,6 @@ function App() {
   };
 
   function handleClick(){
-    //clearListings();
 
     var listingData = {
       descData: document.getElementById('input-description').value,
@@ -46,6 +45,9 @@ function App() {
 
     //sends JSON to back end as a string
     websocket.send(JSON.stringify(listingData));
+
+    //clearListings here
+    //clearListings();
   }
 
   function parseJson(res){
