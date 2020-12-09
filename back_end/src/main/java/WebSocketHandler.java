@@ -196,7 +196,6 @@ public class WebSocketHandler {
 
         for(int i = 0; i<10; i++){
             int randomInt = random.nextInt(10);
-            //System.out.println("Random Int(should be single digit):"+ randomInt);
             postId = postId.concat(Integer.toString(randomInt));
         }
         while(checkPostIdExists(postId)){
@@ -205,7 +204,6 @@ public class WebSocketHandler {
 
             for(int i = 0; i<10; i++){
                 int randomInt = random.nextInt(10);
-                //System.out.println("Random Int(should be single digit):"+ randomInt);
                 postId = postId.concat(Integer.toString(randomInt));
             }
         }
