@@ -109,7 +109,7 @@ function App() {
         <div className="grid-listing website-header" id="listings-header">
           <h2>Listings</h2>
           <div id="listings">
-          {/* {messages.slice(0).reverse().map(item => <div key={item.id}>{item}</div>)} */}
+          {messages.slice(0).reverse().map(item => <div key={item.id}>{item}</div>)}
           </div>
         </div>
       </div>
