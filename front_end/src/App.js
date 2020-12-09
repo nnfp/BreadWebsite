@@ -16,12 +16,20 @@ function App() {
   const [type, setType] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [title, setTitle] = React.useState('');
+  var jsonTemp = {
+    descData: "",
+    typeData: "",
+    priceData: "",
+    titleData: "",
+    postId: "nullPost"
+  }
+  var docJsonList = [];  
 
   //can edit this to get all listings possibly
   const handleWebsocketMessage = (messageEvent) => {
-    const newMessage = messageEvent.data;
+    const newRes = messageEvent.data;
     //calls function that parses incoming JSON and calls another function which renders it
-    parseJson(newMessage);
+    parseJson(newRes);
   };
 
   React.useEffect(() => {
@@ -29,10 +37,12 @@ function App() {
   }, []);
 
   websocket.onmessage = function(event) {
-    console.log("Websocket message recieved: " +  event);
+    //console.log("Websocket message recieved: " +  event.data);
   };
 
   function handleClick(){
+    console.log("FUNCTION BEGUN: handleClick()");
+    clearListings();
 
     var listingData = {
       descData: document.getElementById('input-description').value,
@@ -46,11 +56,14 @@ function App() {
     //sends JSON to back end as a string
     websocket.send(JSON.stringify(listingData));
 
-    //clearListings here
-    //clearListings();
+    //refreshes page everytime submit button is clicked
+    //temporary solution, need to figure out how to delete listings dynamically
+    //window.location.reload();
+
   }
 
   function parseJson(res){
+    console.log("FUNCTION BEGUN: parseJson()");
     var docJson = {
       descData: "",
       typeData: "",
@@ -99,9 +112,49 @@ function App() {
     console.log("docJson data after parsing: " + JSON.stringify(docJson));
 
     var blankDoc = Boolean(docJson.postId == "nullPost");
-    if(!blankDoc){
-      displayListing(docJson);
+      if(!blankDoc){
+        console.log("END OF parseJson(): docJson displaying and pushing postId(" + docJson.postId + ").");
+        displayListing(docJson);
+        //jsonTemp = docJson;
+        docJsonList.push(docJson);
+      }
+      //displayListing(docJson);
+      //docJsonList.push(docJson);
+      // var j;
+      // for (j=0;j<docJsonList.length;j++){
+      //   console.log("POSTID TO BE DELETED: " + docJsonList[j].postId);
+      // }
+      console.log("docJsonList currently holds: " + JSON.stringify(docJsonList));
     }
+
+    function clearListings() {
+      console.log("FUNCTION BEGUN: clearListings()");
+      console.log("docJsonList currently holds: " + JSON.stringify(docJsonList));
+    
+      var i;
+      if (!(docJsonList === undefined || docJsonList.length == 0)){
+        console.log("docJsonList is not empty in clearListings()");
+        for(i=0; i<docJsonList.length;i++){
+          console.log("ATTEMPTING TO DELETE postId(" + docJsonList[i].postId + ") from Listings.");
+          if (!(docJsonList[i].postId === "nullPost")){
+
+          //JUST NEED TO FIGURE OUT HOW TO DELETE, LOGIC OF DELETING A LIST OF THE LISTINGS WORKS
+            try{
+              var element = document.getElementById('id');
+              element.removeChild(docJsonList[i].postId);
+              // element.parentNode.removeChild(element);
+              console.log("Try succeeded in clearListings()");
+            } catch (e) {
+              console.log("Catch error in clearListings(): " + e);
+            }
+          }
+        }
+      } else {
+        console.log("docJsonList appears to be empty in clearListings()");
+      }
+    
+      //docJsonList = [];
+      console.log("END OF clearListings()");
     }
 
   return (
@@ -190,11 +243,6 @@ function displayListing(jsonDoc) {
   listingDiv.appendChild(listingDesc);
   listingDiv.appendChild(listingType);
   listingDiv.appendChild(listingPrice);
-}
-
-function clearListings() {
-  var element = document.getElementById('id');
-  element.remove();
 }
 
 export default App;
