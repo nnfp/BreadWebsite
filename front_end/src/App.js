@@ -20,7 +20,7 @@ function App() {
   //can edit this to get all listings possibly
   const handleWebsocketMessage = (messageEvent) => {
     const newMessage = messageEvent.data;
-    grabJson(newMessage);
+    parseJson(newMessage);
   };
 
   React.useEffect(() => {
@@ -50,8 +50,20 @@ function App() {
 
   }
 
-  function grabJson(message){
-    console.log('grabJSON MESSAGE RECIEVED: '+message);
+  function parseJson(message){
+    console.log('grabJSON MESSAGE RECIEVED: '+ message);
+
+    //string manipulation to separate message
+    
+
+    var docJson = {
+      descData: document.getElementById('input-description').value,
+      typeData: document.getElementById('input-type').value,
+      priceData: document.getElementById('input-price').value,
+      titleData: document.getElementById('input-title').value,
+      postId: document.getElementById('post-id').value,
+    }
+
     }
 
   return (
@@ -141,9 +153,5 @@ function displayListing(listingData) {
   listingDiv.appendChild(listingPrice);
 }
 
-
-function deleteListing(listingData) {
-  document.getElementById(listingData.postId).remove();
-}
 export default App;
 
