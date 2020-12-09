@@ -32,6 +32,14 @@ function App() {
   };
 
   function handleClick(){
+    var docJson = {
+      descData: "",
+      typeData: "",
+      priceData: "",
+      titleData: "",
+      postId: ""
+    }
+
     var listingData = {
       descData: document.getElementById('input-description').value,
       typeData: document.getElementById('input-type').value,
@@ -43,25 +51,24 @@ function App() {
 
     //sends JSON to back end as a string
     websocket.send(JSON.stringify(listingData));
-    //displayListing(listingData);
-
 
     //displayListing to be called to render listings on screen after user creates/edit/delete
-
+    parseJson(message);
+    displayListing(docJson);
   }
 
   function parseJson(message){
     console.log('grabJSON MESSAGE RECIEVED: '+ message);
 
     //string manipulation to separate message
-    
+
 
     var docJson = {
-      descData: document.getElementById('input-description').value,
-      typeData: document.getElementById('input-type').value,
-      priceData: document.getElementById('input-price').value,
-      titleData: document.getElementById('input-title').value,
-      postId: document.getElementById('post-id').value,
+      descData: "",
+      typeData: "",
+      priceData: "",
+      titleData: "",
+      postId: ""
     }
 
     }
@@ -131,20 +138,20 @@ function App() {
     </div>
   );
 }
-function displayListing(listingData) {
+function displayListing(jsonDoc) {
   let listingDiv = document.createElement('div');
   let listingTitle = document.createElement('p');
   let listingDesc = document.createElement('p');
   let listingType = document.createElement('p');
   let listingPrice = document.createElement('p'); 
   let listingHeader = document.createElement('h3'); 
-  listingDiv.setAttribute("id", listingData.postId);
+  listingDiv.setAttribute("id", jsonDoc.postId);
   listingDiv.setAttribute("class", "individual-posts");
-  listingTitle.innerHTML = "Title: " + listingData.titleData;
-  listingDesc.innerHTML = "Description: " + listingData.descData;
-  listingType.innerHTML = "Type: " + listingData.typeData;
-  listingPrice.innerHTML = "Price: " + listingData.priceData;
-  listingHeader.innerHTML = "POST #" + listingData.postId;
+  listingTitle.innerHTML = "Title: " + jsonDoc.titleData;
+  listingDesc.innerHTML = "Description: " + jsonDoc.descData;
+  listingType.innerHTML = "Type: " + jsonDoc.typeData;
+  listingPrice.innerHTML = "Price: " + jsonDoc.priceData;
+  listingHeader.innerHTML = "POST #" + jsonDoc.postId;
   document.getElementById('listings').appendChild(listingDiv); 
   listingDiv.appendChild(listingHeader);
   listingDiv.appendChild(listingTitle);
