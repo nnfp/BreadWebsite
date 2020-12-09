@@ -130,5 +130,9 @@ function displayListing(listingData) {
   listingDiv.appendChild(listingType);
   listingDiv.appendChild(listingPrice);
 }
+
+function deleteListing(listingData) {
+  document.getElementById(listingData.postId).remove();
+}
 export default App;
 

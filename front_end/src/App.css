@@ -51,7 +51,7 @@ html {
   border: 10px solid #D4AA7D;
     border-width: 3px;
     border-radius: 10px;
-  margin: 50px auto auto auto;
+  margin: 50px auto 50px auto;
     grid-template-rows: min-content;
     grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
