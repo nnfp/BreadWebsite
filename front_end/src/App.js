@@ -53,16 +53,12 @@ function App() {
     websocket.send(JSON.stringify(listingData));
 
     //displayListing to be called to render listings on screen after user creates/edit/delete
-    parseJson(message);
-    displayListing(docJson);
+    // parseJson(newMessage);
+    // displayListing(docJson);
   }
 
-  function parseJson(message){
-    console.log('grabJSON MESSAGE RECIEVED: '+ message);
-
-    //string manipulation to separate message
-
-
+  function parseJson(res){
+    //console.log('grabJSON MESSAGE RECIEVED: '+ res);
     var docJson = {
       descData: "",
       typeData: "",
@@ -70,6 +66,49 @@ function App() {
       titleData: "",
       postId: ""
     }
+
+    //string manipulation to separate message
+    if (res.includes("{")) {
+      var copyRes = ""
+      copyRes = res.replace('{"_id": ', "");
+      var splitArray = copyRes.split("}, ");
+      var allData = splitArray[1];
+      allData = allData.substring(0, allData.length-1);
+      
+      //keyValueArray contains all key value pairs
+      //order: postId, desc, type, price, title, ts (timestamp)
+      
+      var keyValueArray = allData.split('", ');
+
+      
+      var j,temp,pairHolder;
+      var finalArray=[];
+      for (j=0;j<6;j++){
+        temp = keyValueArray[j];
+        //console.log("TEMP: "+ temp);
+        pairHolder = temp.split(": ");
+        finalArray.push(pairHolder[0]);
+        finalArray.push(pairHolder[1]);
+      }
+
+      //finalArray contains all data individually split from their key pair values
+      //keys are even index numbers, values are odd index numbers
+      //loop to remove quotes(") from all elements in finalArray
+      var i;
+      for(i=0; i<finalArray.length; i++){
+        finalArray[i] = finalArray[i].replace('"', '');
+      }
+
+      docJson.postId = finalArray[1];
+      docJson.descData = finalArray[3];
+      docJson.typeData = finalArray[5];
+      docJson.priceData = finalArray[7];
+      docJson.titleData = finalArray[9];
+    }
+    console.log("docJson data after parsing: " + JSON.stringify(docJson));
+
+    var blankDoc;
+    displayListing(docJson);
 
     }
 
