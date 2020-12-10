@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route, Switch  } from 'react-router-dom';
 
 //pages
-//import Admin from "./pages/Admin"; //not used
+import Admin from "./pages/Admin"; 
 import Feed from "./pages/Feed";
 import Home from "./pages/Home";
 
@@ -18,7 +18,8 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/Feed" component={Feed} />
-        <Route path="/app" component={App} />
+        <Route path="/Post" component={App} />
+        <Route path="/Admin" component={Admin} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
