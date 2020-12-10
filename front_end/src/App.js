@@ -6,11 +6,7 @@ import './App.css';
 const websocket = new WebSocket('ws://localhost:1234/ws');
 //requires server running in backend
 
-// var docJsonList = []; 
-
 function App() {
-  // const [message, setMessage] = React.useState('');
-  // const [messages, setMessages] = React.useState('');
   //listing data
   const [postId, setPostId] = React.useState('');
   const [postOption, setPostOption] = React.useState('');
@@ -18,21 +14,12 @@ function App() {
   const [type, setType] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [title, setTitle] = React.useState('');
-  const [jsonDocs, setJsonDocs] = React.useState([]);
-  var jsonTemp = {
-    descData: "",
-    typeData: "",
-    priceData: "",
-    titleData: "",
-    postId: "nullPost"
-  }
   var docJsonList = [];  
 
   //can edit this to get all listings possibly
   const handleWebsocketMessage = (messageEvent) => {
     const newRes = messageEvent.data;
     //calls function that parses incoming JSON and calls another function which renders it
-    //clearListings(docJsonList);
     parseJson(newRes);
   };
 
@@ -42,13 +29,7 @@ function App() {
 
 
   function handleClick(){
-    console.log("FUNCTION BEGUN: handleClick()");
-    // var j;
-    //   for (j=0;j<docJsonList.length;j++){
-    //     console.log("POSTID TO BE DELETED: " + docJsonList[j].postId);
-    //   }
-    clearListings();
-
+    //clearListings();
     var listingData = {
       descData: document.getElementById('input-description').value,
       typeData: document.getElementById('input-type').value,
@@ -62,8 +43,7 @@ function App() {
     websocket.send(JSON.stringify(listingData));
 
     //refreshes page everytime submit button is clicked
-    //temporary solution, need to figure out how to delete listings dynamically
-    //window.location.reload();
+    window.location.reload();
 
   }
 
@@ -94,7 +74,6 @@ function App() {
       var finalArray=[];
       for (j=0;j<6;j++){
         temp = keyValueArray[j];
-        //console.log("TEMP: "+ temp);
         pairHolder = temp.split(": ");
         finalArray.push(pairHolder[0]);
         finalArray.push(pairHolder[1]);
@@ -114,21 +93,36 @@ function App() {
       docJson.priceData = finalArray[7];
       docJson.titleData = finalArray[9];
     }
-    //console.log("docJson data after parsing: " + JSON.stringify(docJson));
 
     var blankDoc = Boolean(docJson.postId == "nullPost");
       if(!blankDoc){
         console.log("END OF parseJson(): docJson displaying and pushing postId(" + docJson.postId + ").");
-        docJsonList.push(docJson);
+        //docJsonList.push(docJson);
         displayListing(docJson);
       }
-      //displayListing(docJson);
-      //docJsonList.push(docJson);
-      // var j;
-      // for (j=0;j<docJsonList.length;j++){
-      //   console.log("POSTID TO BE DELETED: " + docJsonList[j].postId);
-      // }
-      console.log("docJsonList currently holds: " + JSON.stringify(docJsonList));
+      //console.log("docJsonList currently holds: " + JSON.stringify(docJsonList));
+    }
+
+    function displayListing(jsonDoc) {
+      let listingDiv = document.createElement('div');
+      let listingTitle = document.createElement('p');
+      let listingDesc = document.createElement('p');
+      let listingType = document.createElement('p');
+      let listingPrice = document.createElement('p'); 
+      let listingHeader = document.createElement('h3'); 
+      listingDiv.setAttribute("id", jsonDoc.postId);
+      listingDiv.setAttribute("class", "individual-posts");
+      listingTitle.innerHTML = "Title: " + jsonDoc.titleData;
+      listingDesc.innerHTML = "Description: " + jsonDoc.descData;
+      listingType.innerHTML = "Type: " + jsonDoc.typeData;
+      listingPrice.innerHTML = "Price: " + jsonDoc.priceData;
+      listingHeader.innerHTML = "POST #" + jsonDoc.postId;
+      document.getElementById('listings').appendChild(listingDiv); 
+      listingDiv.appendChild(listingHeader);
+      listingDiv.appendChild(listingTitle);
+      listingDiv.appendChild(listingDesc);
+      listingDiv.appendChild(listingType);
+      listingDiv.appendChild(listingPrice);
     }
 
     function clearListings() {
@@ -160,29 +154,6 @@ function App() {
     
       //docJsonList = [];
       console.log("END OF clearListings()");
-    }
-
-    function displayListing(jsonDoc) {
-      let listingDiv = document.createElement('div');
-      let listingTitle = document.createElement('p');
-      let listingDesc = document.createElement('p');
-      let listingType = document.createElement('p');
-      let listingPrice = document.createElement('p'); 
-      let listingHeader = document.createElement('h3'); 
-      listingDiv.setAttribute("id", jsonDoc.postId);
-      listingDiv.setAttribute("class", "individual-posts");
-      listingTitle.innerHTML = "Title: " + jsonDoc.titleData;
-      listingDesc.innerHTML = "Description: " + jsonDoc.descData;
-      listingType.innerHTML = "Type: " + jsonDoc.typeData;
-      listingPrice.innerHTML = "Price: " + jsonDoc.priceData;
-      listingHeader.innerHTML = "POST #" + jsonDoc.postId;
-      document.getElementById('listings').appendChild(listingDiv); 
-      listingDiv.appendChild(listingHeader);
-      listingDiv.appendChild(listingTitle);
-      listingDiv.appendChild(listingDesc);
-      listingDiv.appendChild(listingType);
-      listingDiv.appendChild(listingPrice);
-
     }
 
   return (
