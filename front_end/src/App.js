@@ -1,4 +1,7 @@
 import React from 'react';
+import { Switch, Route, Link} from 'react-router-dom';
+import Feed from './pages/Feed';
+import Home from './pages/Home';
 import './App.css';
 
 // React components
@@ -218,6 +221,14 @@ function App() {
       <div className="footer">
           
       </div>
+      <Switch>
+        <Route path="/feed">
+          <Feed />
+        </Route>
+         <Route path="/">
+           <Home />
+         </Route>
+       </Switch>
     </div>
   );
 }
