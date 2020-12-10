@@ -1,4 +1,8 @@
 import React from 'react';
+import { Switch, Route, Link} from 'react-router-dom';
+import Feed from './pages/Feed';
+import Home from './pages/Home';
+import Post from './pages/Post';
 import './App.css';
 
 // React components
@@ -94,7 +98,7 @@ function App() {
       docJson.titleData = finalArray[9];
     }
 
-    var blankDoc = Boolean(docJson.postId == "nullPost");
+    var blankDoc = Boolean(docJson.postId === "nullPost");
       if(!blankDoc){
         console.log("END OF parseJson(): docJson displaying and pushing postId(" + docJson.postId + ").");
         //docJsonList.push(docJson);
@@ -130,7 +134,7 @@ function App() {
       console.log("docJsonList currently holds: " + JSON.stringify(docJsonList));
     
       var i;
-      if (!(docJsonList === undefined || docJsonList.length == 0)){
+      if (!(docJsonList === undefined || docJsonList.length === 0)){
         console.log("docJsonList is not empty in clearListings()");
         for(i=0; i<docJsonList.length;i++){
           console.log("ATTEMPTING TO DELETE postId(" + docJsonList[i].postId + ") from Listings.");
@@ -164,8 +168,8 @@ function App() {
       <div className="grid-container">
         
         <nav className="grid-nav website-header">
-        <a href="/" className="nav-button" id="home">Home</a>
-        <a href="/feed" className="nav-button">Feed</a>
+        <Link to="/" className="nav-button" id="home">Home</Link>
+        <Link to="/feed" className="nav-button">Feed</Link>
         </nav>
         <div className="grid-post" key="app-key">
           <form className="grid-post-input">
@@ -218,6 +222,17 @@ function App() {
       <div className="footer">
           
       </div>
+      <Switch>
+        <Route path="/feed">
+          <Feed />
+        </Route>
+         <Route path="/">
+           <Home />
+         </Route>
+         <Route path="/post">
+           <Post />
+         </Route>
+       </Switch>
     </div>
   );
 }
