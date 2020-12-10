@@ -187,7 +187,7 @@ public class WebSocketHandler {
                     break;
             }
         }
-
+        mongoClient.close();
     }
 
     private static String postIdGenerator(){
@@ -220,12 +220,14 @@ public class WebSocketHandler {
             while (cursor.hasNext()){
                 String nextJson = cursor.next().toJson();
                 if(nextJson.contains(postId)){
+                    mongoClient.close();
                     return true;
                 }
             }
         } finally {
             cursor.close();
         }
+        mongoClient.close();
         return false;
     }
 
@@ -247,6 +249,7 @@ public class WebSocketHandler {
         } finally {
             cursor.close();
         }
+        mongoClient.close();
     }
 
 }
