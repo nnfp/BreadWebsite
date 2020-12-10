@@ -6,6 +6,8 @@ import './App.css';
 const websocket = new WebSocket('ws://localhost:1234/ws');
 //requires server running in backend
 
+// var docJsonList = []; 
+
 function App() {
   // const [message, setMessage] = React.useState('');
   // const [messages, setMessages] = React.useState('');
@@ -16,6 +18,7 @@ function App() {
   const [type, setType] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [title, setTitle] = React.useState('');
+  const [jsonDocs, setJsonDocs] = React.useState([]);
   var jsonTemp = {
     descData: "",
     typeData: "",
@@ -29,6 +32,7 @@ function App() {
   const handleWebsocketMessage = (messageEvent) => {
     const newRes = messageEvent.data;
     //calls function that parses incoming JSON and calls another function which renders it
+    //clearListings(docJsonList);
     parseJson(newRes);
   };
 
@@ -36,12 +40,13 @@ function App() {
     websocket.addEventListener('message', handleWebsocketMessage);
   }, []);
 
-  websocket.onmessage = function(event) {
-    //console.log("Websocket message recieved: " +  event.data);
-  };
 
   function handleClick(){
     console.log("FUNCTION BEGUN: handleClick()");
+    // var j;
+    //   for (j=0;j<docJsonList.length;j++){
+    //     console.log("POSTID TO BE DELETED: " + docJsonList[j].postId);
+    //   }
     clearListings();
 
     var listingData = {
@@ -109,14 +114,13 @@ function App() {
       docJson.priceData = finalArray[7];
       docJson.titleData = finalArray[9];
     }
-    console.log("docJson data after parsing: " + JSON.stringify(docJson));
+    //console.log("docJson data after parsing: " + JSON.stringify(docJson));
 
     var blankDoc = Boolean(docJson.postId == "nullPost");
       if(!blankDoc){
         console.log("END OF parseJson(): docJson displaying and pushing postId(" + docJson.postId + ").");
-        displayListing(docJson);
-        //jsonTemp = docJson;
         docJsonList.push(docJson);
+        displayListing(docJson);
       }
       //displayListing(docJson);
       //docJsonList.push(docJson);
@@ -140,9 +144,10 @@ function App() {
 
           //JUST NEED TO FIGURE OUT HOW TO DELETE, LOGIC OF DELETING A LIST OF THE LISTINGS WORKS
             try{
-              var element = document.getElementById('id');
-              element.removeChild(docJsonList[i].postId);
-              // element.parentNode.removeChild(element);
+              var element = document.getElementById(docJsonList[i].postId);
+              // element[i].removeChild(docJsonList[i].postId);
+              element.parentNode.removeChild(element);
+              // element[i].remove();
               console.log("Try succeeded in clearListings()");
             } catch (e) {
               console.log("Catch error in clearListings(): " + e);
@@ -155,6 +160,29 @@ function App() {
     
       //docJsonList = [];
       console.log("END OF clearListings()");
+    }
+
+    function displayListing(jsonDoc) {
+      let listingDiv = document.createElement('div');
+      let listingTitle = document.createElement('p');
+      let listingDesc = document.createElement('p');
+      let listingType = document.createElement('p');
+      let listingPrice = document.createElement('p'); 
+      let listingHeader = document.createElement('h3'); 
+      listingDiv.setAttribute("id", jsonDoc.postId);
+      listingDiv.setAttribute("class", "individual-posts");
+      listingTitle.innerHTML = "Title: " + jsonDoc.titleData;
+      listingDesc.innerHTML = "Description: " + jsonDoc.descData;
+      listingType.innerHTML = "Type: " + jsonDoc.typeData;
+      listingPrice.innerHTML = "Price: " + jsonDoc.priceData;
+      listingHeader.innerHTML = "POST #" + jsonDoc.postId;
+      document.getElementById('listings').appendChild(listingDiv); 
+      listingDiv.appendChild(listingHeader);
+      listingDiv.appendChild(listingTitle);
+      listingDiv.appendChild(listingDesc);
+      listingDiv.appendChild(listingType);
+      listingDiv.appendChild(listingPrice);
+
     }
 
   return (
@@ -221,28 +249,6 @@ function App() {
       </div>
     </div>
   );
-}
-
-function displayListing(jsonDoc) {
-  let listingDiv = document.createElement('div');
-  let listingTitle = document.createElement('p');
-  let listingDesc = document.createElement('p');
-  let listingType = document.createElement('p');
-  let listingPrice = document.createElement('p'); 
-  let listingHeader = document.createElement('h3'); 
-  listingDiv.setAttribute("id", jsonDoc.postId);
-  listingDiv.setAttribute("class", "individual-posts");
-  listingTitle.innerHTML = "Title: " + jsonDoc.titleData;
-  listingDesc.innerHTML = "Description: " + jsonDoc.descData;
-  listingType.innerHTML = "Type: " + jsonDoc.typeData;
-  listingPrice.innerHTML = "Price: " + jsonDoc.priceData;
-  listingHeader.innerHTML = "POST #" + jsonDoc.postId;
-  document.getElementById('listings').appendChild(listingDiv); 
-  listingDiv.appendChild(listingHeader);
-  listingDiv.appendChild(listingTitle);
-  listingDiv.appendChild(listingDesc);
-  listingDiv.appendChild(listingType);
-  listingDiv.appendChild(listingPrice);
 }
 
 export default App;
