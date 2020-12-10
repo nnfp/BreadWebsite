@@ -1,11 +1,13 @@
 import React from 'react';
 
-function Admin() {
+
+
+function Post() {
   return (
     <div>
-      <h2>Admin Page</h2>
+      
     </div>
   );
 }
 
-export default Admin;
+export default Post;

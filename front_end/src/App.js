@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, Link} from 'react-router-dom';
 import Feed from './pages/Feed';
 import Home from './pages/Home';
+import Post from './pages/Post';
 import './App.css';
 
 // React components
@@ -167,8 +168,8 @@ function App() {
       <div className="grid-container">
         
         <nav className="grid-nav website-header">
-        <a href="/" className="nav-button" id="home">Home</a>
-        <a href="/feed" className="nav-button">Feed</a>
+        <Link to="/" className="nav-button" id="home">Home</Link>
+        <Link to="/feed" className="nav-button">Feed</Link>
         </nav>
         <div className="grid-post" key="app-key">
           <form className="grid-post-input">
@@ -227,6 +228,9 @@ function App() {
         </Route>
          <Route path="/">
            <Home />
+         </Route>
+         <Route path="/post">
+           <Post />
          </Route>
        </Switch>
     </div>
