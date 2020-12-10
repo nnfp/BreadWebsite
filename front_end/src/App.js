@@ -94,7 +94,7 @@ function App() {
       docJson.titleData = finalArray[9];
     }
 
-    var blankDoc = Boolean(docJson.postId == "nullPost");
+    var blankDoc = Boolean(docJson.postId === "nullPost");
       if(!blankDoc){
         console.log("END OF parseJson(): docJson displaying and pushing postId(" + docJson.postId + ").");
         //docJsonList.push(docJson);
@@ -130,7 +130,7 @@ function App() {
       console.log("docJsonList currently holds: " + JSON.stringify(docJsonList));
     
       var i;
-      if (!(docJsonList === undefined || docJsonList.length == 0)){
+      if (!(docJsonList === undefined || docJsonList.length === 0)){
         console.log("docJsonList is not empty in clearListings()");
         for(i=0; i<docJsonList.length;i++){
           console.log("ATTEMPTING TO DELETE postId(" + docJsonList[i].postId + ") from Listings.");
