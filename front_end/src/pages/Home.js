@@ -1,9 +1,9 @@
 import React from 'react';
-
+import bread from '../images/bread-banner.jpg';
 function Home() {
   return (
     <div>
-      <h2>Home Page</h2>
+      <img src={bread} alt="bread banner"></img>
     </div>
   );
 }

@@ -53,12 +53,11 @@ html {
     border-radius: 10px;
   margin: 50px auto 50px auto;
     grid-template-rows: min-content;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 1rem;
     grid-template-areas: 
-    ". . nav . ."
-    ". post post post ."
-    ". listing listing listing ."
+    "post"
+    "listing"
 }
 
 .grid-header {
@@ -81,6 +80,9 @@ h1.site-banner {
 .grid-nav {
   padding: 10px;
   grid-area: nav;
+  margin: 10px auto 10px auto;
+  width: 20%;
+
 }
 
 .nav-button {
@@ -93,10 +95,7 @@ h1.site-banner {
     border-radius: 10px;
   
   padding: 3px;
-}
-
-#home {
-  margin-right: 60px;
+  margin: 3px;
 }
 
 .grid-post {
@@ -156,7 +155,7 @@ select {
 
 button {
   margin: 10px;
-  padding: 3px;  
+  padding: 5px;  
   border: 10px solid #D4AA7D;
     border-width: 3px;
     border-radius: 10px;
@@ -192,4 +191,52 @@ button:hover{
     border-radius: 10px;
   margin: auto auto 20px auto;
   max-width: 80%;
+}
+
+.feed-container {
+  font-family: 'Source Code Pro', monospace;
+  background-color: #EFD09E;
+  display: grid;
+  width: 60%;
+  padding: 12px;
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+  margin: 50px auto 50px auto;
+    grid-template-rows: min-content;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    grid-template-areas: 
+    "feedInput"
+    "feedListings"
+}
+
+.feed-header {
+  grid-area: feedHeader;
+  color:#774936;
+  border-bottom: 10px dashed #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+    width: 80%;
+    margin: auto auto 10px auto;
+    padding: 5px;
+}
+.feed-input{
+  grid-area: feedInput;
+  font-family: 'Source Code Pro', monospace;
+  color: #774936;
+  background-color: #ffeed2;
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+}
+
+.feed-listings-header{
+  color:#774936;
+  background-color: #ffeed2;
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+  grid-area:feedListings;
+  
 }
