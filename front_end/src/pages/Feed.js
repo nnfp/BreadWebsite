@@ -10,8 +10,7 @@ function Feed() {
           <select
             id="input-type"
             value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-          >
+            onChange={(e) => setFilterType(e.target.value)}>
             <option value="" disabled defaultValue>
               Bread Type
             </option>
@@ -34,7 +33,7 @@ function Feed() {
         </button>
       </div>
       <div className="feed-listings-header">
-        <h2>Feed Listings:</h2>
+        <h2 id="listings-header">Feed Listings:</h2>
         <div id="feed-listings"></div>
       </div>
     </div>

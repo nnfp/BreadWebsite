@@ -240,3 +240,19 @@ button:hover{
   grid-area:feedListings;
   
 }
+
+.mission-statement {
+  font-family: 'Source Code Pro', monospace;
+  color:#774936;
+  background-color: #ffeed2;
+  border: 10px solid #D4AA7D;
+    border-width: 3px;
+    border-radius: 10px;
+  width:40%;
+  margin: 20px auto auto auto;
+  padding: 20px;
+}
+
+#bread-banner {
+  margin-top: 20px;
+}
