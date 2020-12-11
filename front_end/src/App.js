@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route, Link} from 'react-router-dom';
 import Feed from './pages/Feed';
 import Home from './pages/Home';
-import Post from './pages/Post';
 import './App.css';
 
 // React components
@@ -228,9 +227,6 @@ function App() {
         </Route>
          <Route path="/">
            <Home />
-         </Route>
-         <Route path="/post">
-           <Post />
          </Route>
        </Switch>
     </div>
