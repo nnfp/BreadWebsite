@@ -59,11 +59,15 @@ public class WebSocketHandler {
     @OnWebSocketMessage
     public void message(Session session, String message){
         System.out.println("Client has sent: " + message);
-        handleListing(message);
+        if(message.startsWith("admin ")) {
+            handleListing(message);
 
-        //grabbing mongo documents
-        sendJsonListings();
-
+            //grabbing mongo documents
+            sendJsonListings();
+        }
+        if(message.startsWith("filter ")){
+            
+        }
         // trigger a broadcast
         //Gson gson = new Gson();
         //broadcast(gson.toJson(messages));

@@ -39,7 +39,7 @@ function Admin() {
     }
 
     //sends JSON to back end as a string
-    websocket.send(JSON.stringify(listingData));
+    websocket.send('admin '+JSON.stringify(listingData));
 
     //refreshes page everytime submit button is clicked
     window.location.reload();
@@ -73,9 +73,11 @@ function Admin() {
       var finalArray=[];
       for (j=0;j<6;j++){
         temp = keyValueArray[j];
-        pairHolder = temp.split(": ");
-        finalArray.push(pairHolder[0]);
-        finalArray.push(pairHolder[1]);
+        if(temp !== undefined){
+          pairHolder = temp.split(": ");
+          finalArray.push(pairHolder[0]);
+          finalArray.push(pairHolder[1]);
+        }
       }
 
       //finalArray contains all data individually split from their key pair values
