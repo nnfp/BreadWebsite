@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import org.bson.types.ObjectId;
@@ -25,6 +26,7 @@ public class WebSocketHandler {
 
     private static List<String> messages = new Vector<>();
     private static Map<Session, Session> sessionMap = new ConcurrentHashMap<>();
+    private static String filter=null;
 
 
     public static void broadcast(String message){
@@ -60,13 +62,20 @@ public class WebSocketHandler {
     public void message(Session session, String message){
         System.out.println("Client has sent: " + message);
         if(message.startsWith("admin ")) {
+            System.out.println("ADMIN");
             handleListing(message);
 
             //grabbing mongo documents
             sendJsonListings();
         }
-        if(message.startsWith("filter ")){
-            
+        else if(message.startsWith("filter ")){
+            System.out.println("FILTERED");
+            filter = message.substring(7);
+            System.out.println(filter);
+            sendFiltered(filter);
+        }
+        else{
+            System.out.println("XD");
         }
         // trigger a broadcast
         //Gson gson = new Gson();
@@ -111,6 +120,7 @@ public class WebSocketHandler {
                 x=x+2;
             }
         }
+
 
         //default assignments
         desc = "";
@@ -247,8 +257,15 @@ public class WebSocketHandler {
         try {
             while (cursor.hasNext()){
                 String nextJson = cursor.next().toJson();
-                System.out.println("Document Data: " + nextJson);
-                broadcast(nextJson);
+
+                if(filter == null) {
+                    System.out.println("Document Data: " + nextJson);
+                    broadcast(nextJson);
+                }
+                else if(nextJson.contains("\"type\": \"" + filter + "\"")) {
+                    System.out.println("Document Data: " + nextJson);
+                    broadcast(nextJson);
+                }
             }
         } finally {
             cursor.close();
@@ -256,4 +273,28 @@ public class WebSocketHandler {
         mongoClient.close();
     }
 
+    private static void sendFiltered (String filters) {
+        MongoClient mongoClient = new MongoClient("localhost",27017);
+
+        MongoDatabase db = mongoClient.getDatabase("csc413finaldb");
+
+        MongoCollection<Document> usersCollection  = db.getCollection  ("listings");
+
+        //grabbing mongo documents
+        MongoCursor<Document> cursor = usersCollection.find().iterator();
+        try {
+            while (cursor.hasNext()){
+                String nextJson = cursor.next().toJson();
+                System.out.println(nextJson.contains("\"type\": \"" + filters + "\""));
+                System.out.println("\"type\": \"" + filters + "\"");
+                if(nextJson.contains("\"type\": \"" + filters + "\"")) {
+                    System.out.println("Document Data: " + nextJson);
+                    broadcast(nextJson);
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+        mongoClient.close();
+    }
 }
