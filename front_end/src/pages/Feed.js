@@ -79,9 +79,6 @@ React.useEffect(() => {
     }
 
   function displayListing(jsonDoc) {
-    //if(jsonDoc.typeData.toString() !== filterType){
-      console.log(jsonDoc.typeData.toString());
-      console.log(filterType);
       let listingDiv = document.createElement('div');
       let listingTitle = document.createElement('p');
       let listingDesc = document.createElement('p');
@@ -101,7 +98,6 @@ React.useEffect(() => {
       listingDiv.appendChild(listingDesc);
       listingDiv.appendChild(listingType);
       listingDiv.appendChild(listingPrice);
-    //}
   }
   
   return (

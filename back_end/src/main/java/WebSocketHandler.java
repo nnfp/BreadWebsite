@@ -62,6 +62,7 @@ public class WebSocketHandler {
     public void message(Session session, String message){
         System.out.println("Client has sent: " + message);
         if(message.startsWith("admin ")) {
+            filter = null;
             System.out.println("ADMIN");
             handleListing(message);
 
