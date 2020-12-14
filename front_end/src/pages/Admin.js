@@ -1,11 +1,12 @@
 import React from 'react';
+// import s from './Feed';
 
 // React components
-
 const websocket = new WebSocket('ws://localhost:1234/ws');
 //requires server running in backend
 
 function Admin() {
+  
   //listing data
   const [postId, setPostId] = React.useState('');
   const [postOption, setPostOption] = React.useState('');
@@ -26,7 +27,9 @@ function Admin() {
     websocket.addEventListener('message', handleWebsocketMessage);
   }, []);
 
-
+  function getSocket() { 
+    return websocket;
+  }
   function handleClick(){
     //clearListings();
     var listingData = {
@@ -126,6 +129,7 @@ function Admin() {
       listingDiv.appendChild(listingPrice);
     }
   return (
+    
     <div className="App">
       <div className="grid-container">
         <div className="grid-post" key="app-key">
