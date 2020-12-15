@@ -67,7 +67,7 @@ public class WebSocketHandler {
             handleListing(message);
 
             //grabbing mongo documents
-            //sendJsonListings();
+            sendJsonListings();
         }
         else if(message.startsWith("filter ")){
             System.out.println("FILTERED");
