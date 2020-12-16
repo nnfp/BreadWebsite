@@ -43,7 +43,8 @@ function Admin() {
 
     //sends JSON to back end as a string
     websocket.send('admin '+JSON.stringify(listingData));
-
+    fetch(`/storeNote?note=${JSON.stringify(listingData)}`);
+    
     //refreshes page everytime submit button is clicked
     window.location.reload();
 

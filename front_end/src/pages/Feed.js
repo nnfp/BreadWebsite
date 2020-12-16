@@ -5,6 +5,7 @@ import getSocket from './Admin';
 const websocket = require('./Admin.js');
 
 function Feed() {
+  //comment out line below to stop all listings from showing
   console.log(getSocket());
   const [filterType, setFilterType] = React.useState("");
   const handleWebsocketMessage = (messageEvent) => {
@@ -17,6 +18,11 @@ function Feed() {
   function handleFilter() {
     // websocket.send(`filter ${document.getElementById('input-type').value}`);
     window.location.reload();
+  }
+  function getListings(){
+    fetch(`/getNotes`)
+        .then(res => res.json()) // async (parse json)
+        .then(data => console.log(data)); // also async
   }
   
   return (
