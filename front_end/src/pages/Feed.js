@@ -1,6 +1,8 @@
 import React from 'react';
+import websocket from '../App';
 import getSocket from './Admin';
 //import handleClick from './Admin';
+import ws from "../SocketProvider";
 
 //const ws = getSocket();
 
@@ -18,8 +20,8 @@ function Feed() {
   function handleFilter() {
     var filter = 'filter ' + document.getElementById('input-type').value;
     console.log(filter);
-    //ws.send(filter);
-    window.location.reload();
+    ws.send(filter);
+    // window.location.reload();
   }
   function getListings(){
     fetch(`/getNotes`)

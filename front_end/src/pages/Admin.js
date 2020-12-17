@@ -1,8 +1,9 @@
 import React from 'react';
 // import s from './Feed';
+import ws from "../SocketProvider";
 
 // React components
-const websocket = new WebSocket('ws://localhost:1234/ws');
+//const websocket = new WebSocket('ws://localhost:1234/ws');
 //requires server running in backend
 
 function Admin() {
@@ -24,12 +25,12 @@ function Admin() {
   };
 
   React.useEffect(() => {
-    websocket.addEventListener('message', handleWebsocketMessage);
+    ws.addEventListener('message', handleWebsocketMessage);
   }, []);
 
-  function getSocket() { 
-    return websocket;
-  }
+  // function getSocket() { 
+  //   return websocket;
+  // }
   function handleClick(){
     //clearListings();
     var listingData = {
@@ -42,7 +43,7 @@ function Admin() {
     }
 
     //sends JSON to back end as a string
-    websocket.send('admin '+JSON.stringify(listingData));
+    ws.send('admin '+JSON.stringify(listingData));
     fetch(`/storeNote?note=${JSON.stringify(listingData)}`);
     
     //refreshes page everytime submit button is clicked

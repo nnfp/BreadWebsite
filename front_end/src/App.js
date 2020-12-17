@@ -4,7 +4,7 @@ import Admin from './pages/Admin';
 import Feed from './pages/Feed';
 import Home from './pages/Home';
 import './App.css';
-
+import ws from "./SocketProvider";
 // React components
 function App() {
   return (
