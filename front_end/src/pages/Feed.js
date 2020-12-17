@@ -2,7 +2,7 @@ import React from 'react';
 import getSocket from './Admin';
 //import handleClick from './Admin';
 
-const websocket = require('./Admin.js');
+//const ws = getSocket();
 
 function Feed() {
   //comment out line below to stop all listings from showing
@@ -16,7 +16,9 @@ function Feed() {
 };
 
   function handleFilter() {
-    // websocket.send(`filter ${document.getElementById('input-type').value}`);
+    var filter = 'filter ' + document.getElementById('input-type').value;
+    console.log(filter);
+    //ws.send(filter);
     window.location.reload();
   }
   function getListings(){
@@ -33,22 +35,22 @@ function Feed() {
           <select
             id="input-type"
             value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}>
+            onChange={e => setFilterType(e.target.value)}>
             <option value="" disabled defaultValue>
               Bread Type
             </option>
-            <option value="banana_bread">Banana Bread</option>
-            <option value="baguette">Baguette</option>
-            <option value="brioche">Brioche</option>
-            <option value="challah">Challah</option>
-            <option value="ciabatta">Ciabatta</option>
-            <option value="cornbread">Cornbread</option>
-            <option value="focaccia">Focaccia</option>
-            <option value="multigrain_bread">Multigrain Bread</option>
-            <option value="pita_bread">Pita Bread</option>
-            <option value="pumpernickel">Pumpernickel</option>
-            <option value="rye_bread">Rye Bread</option>
-            <option value="sourdough">Sourdough</option>
+            <option value="Banana Bread">Banana Bread</option>
+            <option value="Baguette">Baguette</option>
+            <option value="Brioche">Brioche</option>
+            <option value="Challah">Challah</option>
+            <option value="Ciabatta">Ciabatta</option>
+            <option value="Cornbread">Cornbread</option>
+            <option value="Focaccia">Focaccia</option>
+            <option value="Multigrain Bread">Multigrain Bread</option>
+            <option value="Pita Bread">Pita Bread</option>
+            <option value="Pumpernickel">Pumpernickel</option>
+            <option value="Rye Bread">Rye Bread</option>
+            <option value="Sourdough">Sourdough</option>
           </select>
         </form>
         <button id="feed-submit" onClick={handleFilter}>

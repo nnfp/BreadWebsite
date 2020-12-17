@@ -14,17 +14,17 @@ function App() {
         </div>
         <nav className="grid-nav website-header">
         <Link to="/" className="nav-button" >Home</Link>
-        <Link to="/admin" className="nav-button" >Admin</Link>
-        <Link to="/feed" className="nav-button" >Feed</Link>
+        <Link to="/admin" className="nav-button">Admin</Link>
+        <Link to="/feed" className="nav-button">Feed</Link>
         </nav>
       <Switch>
-        <Route path="/admin">
+        <Route path="/admin" onEnter={() => window.location.reload()}>
           <Admin />
         </Route>
-        <Route path="/feed">
+        <Route path="/feed" onEnter={() => window.location.reload()}>
           <Feed />
         </Route>
-        <Route path="/">
+        <Route path="/" >
           <Home />
         </Route>
       </Switch>
