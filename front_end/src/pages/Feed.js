@@ -1,9 +1,7 @@
 import React from 'react';
-import getSocket from './Admin';
 import ws from "../SocketProvider";
 
 function Feed() {
-  console.log(getSocket());
   const [filterType, setFilterType] = React.useState("");
   function handleFilter() {
     var filter = 'filter ' + document.getElementById('input-type').value;
