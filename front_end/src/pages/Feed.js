@@ -1,34 +1,15 @@
 import React from 'react';
-import websocket from '../App';
 import getSocket from './Admin';
-//import handleClick from './Admin';
 import ws from "../SocketProvider";
 
-//const ws = getSocket();
-
 function Feed() {
-  //comment out line below to stop all listings from showing
   console.log(getSocket());
   const [filterType, setFilterType] = React.useState("");
-  const handleWebsocketMessage = (messageEvent) => {
-  const newRes = messageEvent.data;
-  
-  //calls function that parses incoming JSON and calls another function which renders it
-  // parseJson(newRes);
-};
-
   function handleFilter() {
     var filter = 'filter ' + document.getElementById('input-type').value;
     console.log(filter);
     ws.send(filter);
-    // window.location.reload();
   }
-  function getListings(){
-    fetch(`/getNotes`)
-        .then(res => res.json()) // async (parse json)
-        .then(data => console.log(data)); // also async
-  }
-  
   return (
     <div className="feed-container">
       <div className="feed-input">

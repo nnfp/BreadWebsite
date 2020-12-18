@@ -1,10 +1,7 @@
 import React from 'react';
-// import s from './Feed';
 import ws from "../SocketProvider";
 
 // React components
-//const websocket = new WebSocket('ws://localhost:1234/ws');
-//requires server running in backend
 
 function Admin() {
   
@@ -15,7 +12,6 @@ function Admin() {
   const [type, setType] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [title, setTitle] = React.useState('');
-  var docJsonList = [];  
 
   //can edit this to get all listings possibly
   const handleWebsocketMessage = (messageEvent) => {
@@ -28,11 +24,7 @@ function Admin() {
     ws.addEventListener('message', handleWebsocketMessage);
   }, []);
 
-  // function getSocket() { 
-  //   return websocket;
-  // }
   function handleClick(){
-    //clearListings();
     var listingData = {
       descData: document.getElementById('input-description').value,
       typeData: document.getElementById('input-type').value,
@@ -103,10 +95,8 @@ function Admin() {
     var blankDoc = Boolean(docJson.postId === "nullPost");
       if(!blankDoc){
         console.log("END OF parseJson(): docJson displaying and pushing postId(" + docJson.postId + ").");
-        //docJsonList.push(docJson);
         displayListing(docJson);
       }
-      //console.log("docJsonList currently holds: " + JSON.stringify(docJsonList));
     }
 
     function displayListing(jsonDoc) {
@@ -117,7 +107,7 @@ function Admin() {
       let listingPrice = document.createElement('p'); 
       let listingHeader = document.createElement('h3'); 
       listingDiv.setAttribute("id", jsonDoc.postId);
-      listingDiv.setAttribute("class", "individual-posts");
+      listingDiv.setAttribute("class", "individual-posts " + jsonDoc.typeData);
       listingTitle.innerHTML = "Title: " + jsonDoc.titleData;
       listingDesc.innerHTML = "Description: " + jsonDoc.descData;
       listingType.innerHTML = "Type: " + jsonDoc.typeData;

@@ -260,15 +260,6 @@ public class WebSocketHandler {
                 String nextJson = cursor.next().toJson();
                 System.out.println("Document Data: " + nextJson);
                 broadcast(nextJson);
-
-//                if(filter == null) {
-//                    System.out.println("Document Data: " + nextJson);
-//                    broadcast(nextJson);
-//                }
-//                else if(nextJson.contains("\"type\": \"" + filter + "\"")) {
-//                    System.out.println("Document Data: " + nextJson);
-//                    broadcast(nextJson);
-//                }
             }
         } finally {
             cursor.close();
